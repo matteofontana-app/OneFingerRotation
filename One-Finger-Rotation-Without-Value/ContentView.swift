@@ -7,17 +7,27 @@
 
 import SwiftUI
 
+//This is the Rotable Element
 struct RotatableElement: View {
-    @State private var rotation: Angle = .zero
+    
+    //Rotation Gesture variables: Angle of rotation at the end of gesture and real time value
+    @State private var rotationAngle: Angle = .zero
     @GestureState private var gestureRotation: Angle = .zero
 
     var body: some View {
+        
+        //Replace this with the view you want to rotate
         Rectangle()
             .fill(Color.red)
             .frame(width: 200, height: 200)
-            .rotationEffect(rotation + gestureRotation)
+        
+            //Apply this modifier to apply the rotation effect
+            .rotationEffect(rotationAngle + gestureRotation)
+        
+            //Apply this modifier to receive the input of rotation
             .gesture(
                 DragGesture()
+                    //Drag gesture of rotation while updating
                     .updating($gestureRotation) { value, state, _ in
                         let centerX = value.startLocation.x - 100
                         let centerY = value.startLocation.y - 100
@@ -31,6 +41,7 @@ struct RotatableElement: View {
                         let angleDifference = atan2(startVector.dy * endVector.dx - startVector.dx * endVector.dy, startVector.dx * endVector.dx + startVector.dy * endVector.dy)
                         state = Angle(radians: -Double(angleDifference))
                     }
+                    //Drag gesture of rotation when ended
                     .onEnded { value in
                         let centerX = value.startLocation.x - 100
                         let centerY = value.startLocation.y - 100
@@ -42,7 +53,7 @@ struct RotatableElement: View {
                         let endVector = CGVector(dx: endX, dy: endY)
                         
                         let angleDifference = atan2(startVector.dy * endVector.dx - startVector.dx * endVector.dy, startVector.dx * endVector.dx + startVector.dy * endVector.dy)
-                        rotation = rotation + Angle(radians: -Double(angleDifference))
+                        rotationAngle = rotationAngle + Angle(radians: -Double(angleDifference))
                     }
             )
     }
@@ -50,7 +61,10 @@ struct RotatableElement: View {
 
 struct ContentView: View {
     var body: some View {
+        
+        //Rotated element
         RotatableElement()
+        
     }
 }
 
