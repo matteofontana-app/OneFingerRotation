@@ -16,6 +16,7 @@ struct AutoRotation: View {
     @State private var startTime: Date = Date()
     @State private var dragging: Bool = false
     @State private var resumeAngle: Double = 0
+    @State private var rotationReset: Bool = false
     
     let speed: Double = 100 // Speed of rotation in degrees per second
 
@@ -57,18 +58,24 @@ struct AutoRotation: View {
                 )
                 .onReceive(Timer.publish(every: 1/60, on: .main, in: .common).autoconnect()) { currentTime in
                     guard !paused && !dragging else { return }
+                    
+                    if rotationReset {
+                        startTime = currentTime // Reset the startTime if the rotation was reset
+                        rotationReset = false // Reset the flag
+                    }
+                    
                     let elapsedTime = currentTime.timeIntervalSince(startTime)
                     let automaticAngle = resumeAngle + speed * elapsedTime
                     totalAngle = Double(fullRotations) * 360 + automaticAngle
                     rotationAngle = Angle(degrees: automaticAngle)
                 }
-
             Button("Reset Rotation") {
                 withAnimation(.easeInOut(duration: 0.1)) {
                     rotationAngle = .degrees(0)
                     totalAngle = 0
                     fullRotations = 0
                     resumeAngle = 0
+                    rotationReset = true // Set the rotationReset to true when the button is pressed
                 }
             }
             .padding(.top, 20)

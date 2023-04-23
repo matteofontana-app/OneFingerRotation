@@ -8,15 +8,12 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        //Views here
+        //Versions here
         
         //RotatableElement()
-        
-        Knob()
-        
+        //Knob()
         //ValueRotation()
-        
-        //AutoRotation()
+        AutoRotation()
     }
 }
 
