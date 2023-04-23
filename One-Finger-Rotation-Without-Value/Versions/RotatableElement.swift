@@ -1,6 +1,6 @@
 //
 //  RotatableElement.swift
-//  Rotatable Element
+//  One-Finger-Rotation
 //
 //  Created by Matteo Fontana on 23/04/23.
 //

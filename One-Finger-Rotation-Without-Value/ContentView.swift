@@ -1,7 +1,6 @@
 //
 //  ContentView.swift
-//  One-Finger-Rotation-Without-Value
-//
+//  One-Finger-Rotation
 //  Created by Matteo Fontana on 22/04/23.
 //
 
@@ -16,6 +15,8 @@ struct ContentView: View {
         Knob()
         
         //ValueRotation()
+        
+        //AutoRotation()
     }
 }
 

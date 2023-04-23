@@ -1,6 +1,6 @@
 //
 //  Knob.swift
-//  Knob
+//  One-Finger-Rotation
 //
 //  Created by Matteo Fontana on 22/04/23.
 //
