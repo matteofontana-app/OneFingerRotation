@@ -11,9 +11,11 @@ struct ContentView: View {
     var body: some View {
         //Views here
         
-        RotatableElement()
+        //RotatableElement()
         
-        //Knob()
+        Knob()
+        
+        //ValueRotation()
     }
 }
 
