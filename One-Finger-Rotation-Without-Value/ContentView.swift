@@ -13,7 +13,9 @@ struct ContentView: View {
         //RotatableElement()
         //Knob()
         //ValueRotation()
-        AutoRotation()
+        //AutoRotation()
+        
+        RotatableElementInertia()
     }
 }
 

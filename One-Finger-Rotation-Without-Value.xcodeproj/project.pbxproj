@@ -15,6 +15,7 @@
 		4D281B5529F58BE30064AF7A /* RotatableElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D281B5429F58BE30064AF7A /* RotatableElement.swift */; };
 		4D281B5729F58DE00064AF7A /* ValueRotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D281B5629F58DE00064AF7A /* ValueRotation.swift */; };
 		4D281B5929F58EF30064AF7A /* AutoRotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D281B5829F58EF30064AF7A /* AutoRotation.swift */; };
+		4D281B5C29F59AF40064AF7A /* RotatableElementInertia.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D281B5B29F59AF40064AF7A /* RotatableElementInertia.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,6 +28,7 @@
 		4D281B5429F58BE30064AF7A /* RotatableElement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RotatableElement.swift; sourceTree = "<group>"; };
 		4D281B5629F58DE00064AF7A /* ValueRotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValueRotation.swift; sourceTree = "<group>"; };
 		4D281B5829F58EF30064AF7A /* AutoRotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoRotation.swift; sourceTree = "<group>"; };
+		4D281B5B29F59AF40064AF7A /* RotatableElementInertia.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RotatableElementInertia.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +85,7 @@
 				4D281B5429F58BE30064AF7A /* RotatableElement.swift */,
 				4D281B5629F58DE00064AF7A /* ValueRotation.swift */,
 				4D281B5829F58EF30064AF7A /* AutoRotation.swift */,
+				4D281B5B29F59AF40064AF7A /* RotatableElementInertia.swift */,
 			);
 			path = Versions;
 			sourceTree = "<group>";
@@ -157,6 +160,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4D281B5C29F59AF40064AF7A /* RotatableElementInertia.swift in Sources */,
 				4D1A065D29F43E350077A31A /* ContentView.swift in Sources */,
 				4D281B5729F58DE00064AF7A /* ValueRotation.swift in Sources */,
 				4D281B5929F58EF30064AF7A /* AutoRotation.swift in Sources */,
