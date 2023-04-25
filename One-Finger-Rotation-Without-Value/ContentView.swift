@@ -15,7 +15,6 @@ struct ContentView: View {
         //ValueRotation()
         //AutoRotation()
         
-        //RotatableElementInertia()
         FidgetSpinnerView()
     }
 }
