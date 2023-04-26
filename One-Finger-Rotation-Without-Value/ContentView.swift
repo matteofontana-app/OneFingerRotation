@@ -10,12 +10,28 @@ struct ContentView: View {
     var body: some View {
         //Versions here
         
+        ///Static movement powered views
         //RotatableElement()
         //Knob()
         //ValueRotation()
         //AutoRotation()
         
-        FidgetSpinnerView()
+        /// Inertia powered views
+        //FidgetSpinnerView()
+        //KnobInertia()
+        //ValueRotationInertia()
+        VStack {
+            Spacer()
+            Rectangle()
+                .foregroundColor(.red)
+                .frame(width: 300, height: 300)
+                .modifier(FidgetSpinner(friction: 0.995, velocityMultiplier: 0.1))
+            Spacer()
+            Image("FidgetSpinner")
+                .resizable()
+                .frame(width: 300, height: 300)
+                .modifier(FidgetSpinner(friction: 0.995, velocityMultiplier: 0.1))
+        }
     }
 }
 
