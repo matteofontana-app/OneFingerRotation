@@ -25,12 +25,12 @@ struct ContentView: View {
             Rectangle()
                 .foregroundColor(.red)
                 .frame(width: 300, height: 300)
-                .modifier(FidgetSpinner(friction: 0.995, velocityMultiplier: 0.1))
+                .modifier(FidgetSpinnerEffect(friction: 0.995, velocityMultiplier: 0.1))
             Spacer()
             Image("FidgetSpinner")
                 .resizable()
                 .frame(width: 300, height: 300)
-                .modifier(FidgetSpinner(friction: 0.995, velocityMultiplier: 0.1))
+                .modifier(FidgetSpinnerEffect(friction: 0.995, velocityMultiplier: 0.1))
         }
     }
 }
