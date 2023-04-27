@@ -51,10 +51,10 @@ struct FidgetSpinnerEffect: ViewModifier {
             /// The ".background" modifier and the ".onPreferenceChange" update the automatic frame calculation of the content.
                 .background(
                     GeometryReader { geometry in
-                        Color.clear.preference(key: FrameSizeKey.self, value: geometry.size)
+                        Color.clear.preference(key: FrameSizeKeyFidgetSpinner.self, value: geometry.size)
                     }
                 )
-                .onPreferenceChange(FrameSizeKey.self) { newSize in
+                .onPreferenceChange(FrameSizeKeyFidgetSpinner.self) { newSize in
                     viewSize = newSize
                 }
             /// The ".position" modifier fix the center of the content.
@@ -132,7 +132,7 @@ struct FidgetSpinnerEffect: ViewModifier {
 }
 
 /// This PreferenceKey is necessary for the calculation of the frame width and height of the content.
-struct FrameSizeKey: PreferenceKey {
+struct FrameSizeKeyFidgetSpinner: PreferenceKey {
     static var defaultValue: CGSize = .zero
     
     static func reduce(value: inout CGSize, nextValue: () -> CGSize) {

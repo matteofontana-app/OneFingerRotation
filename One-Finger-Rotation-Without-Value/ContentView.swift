@@ -8,24 +8,18 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State private var totalAngle: Double = 20
+    
     var body: some View {
         //Versions here
-        
-        ///Static movement powered views
-        //RotatableElement()
-        //Knob()
-        //ValueRotation()
-        //AutoRotation()
-        
-        /// Inertia powered views
-        //FidgetSpinnerView()
-        //KnobInertia()
-        //ValueRotationInertia()
         VStack {
             Image("FidgetSpinner")
                 .resizable()
                 .frame(width: 200, height: 200)
-                .modifier(SimpleRotation(rotationAngle: .degrees(20)))
+                .valueRotation(initialTotalAngle: totalAngle, onAngleChanged: { newAngle in
+                    totalAngle = newAngle
+                })
+            Text("Total Angle: \(totalAngle, specifier: "%.2f")")
             Spacer()
             Image("FidgetSpinner")
                 .resizable()

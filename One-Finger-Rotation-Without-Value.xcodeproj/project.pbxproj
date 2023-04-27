@@ -87,6 +87,7 @@
 			children = (
 				4D281B5429F58BE30064AF7A /* SimpleRotation.swift */,
 				4D281B5B29F59AF40064AF7A /* FidgetSpinnerModifier.swift */,
+				4D281B5629F58DE00064AF7A /* ValueRotation.swift */,
 			);
 			path = Variable;
 			sourceTree = "<group>";
@@ -96,7 +97,6 @@
 			children = (
 				4D27980629FA6256008A5076 /* Variable */,
 				4D281B5229F58B670064AF7A /* Knob.swift */,
-				4D281B5629F58DE00064AF7A /* ValueRotation.swift */,
 				4D281B5829F58EF30064AF7A /* AutoRotation.swift */,
 				4D59C96429F9840F001C6B98 /* KnobInertia.swift */,
 				4D59C96629F9919D001C6B98 /* ValueRotationInertia.swift */,
@@ -324,7 +324,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "matteofontana.One-Finger-Rotation-Without-Value";
+				PRODUCT_BUNDLE_IDENTIFIER = com.FIRSTNAME.NAMEOFTHEAPP;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -353,7 +353,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "matteofontana.One-Finger-Rotation-Without-Value";
+				PRODUCT_BUNDLE_IDENTIFIER = com.FIRSTNAME.NAMEOFTHEAPP;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
