@@ -10,17 +10,21 @@ import SwiftUI
 struct ValueRotation: ViewModifier {
     @State private var rotationAngle: Angle = .degrees(0)
     @State private var previousAngle: Double = 0
-    @State private var fullRotations: Int = 0
+    @Binding var totalAngle: Double
     var onAngleChanged: (Double) -> Void
-
-    init(initialTotalAngle: Double, onAngleChanged: @escaping (Double) -> Void) {
-        rotationAngle = Angle(degrees: initialTotalAngle)
-        self.onAngleChanged = onAngleChanged
-    }
+    var animation: Animation?
+    @State private var isDragged: Bool = false
+    @State private var fullRotations: Int = 0
     
-    /// viewSize is needed for the calculation of the Width and Height of the View.
+    init(totalAngle: Binding<Double>, onAngleChanged: @escaping (Double) -> Void, animation: Animation? = nil) {
+            self._totalAngle = totalAngle
+            rotationAngle = Angle(degrees: totalAngle.wrappedValue)
+            self.onAngleChanged = onAngleChanged
+            self.animation = animation
+        }
+    
     @State private var viewSize: CGSize = .zero
-
+    
     func body(content: Content) -> some View {
         GeometryReader { geometry in
             content
@@ -32,33 +36,48 @@ struct ValueRotation: ViewModifier {
                 .onPreferenceChange(FrameSizeKeyValueRotation.self) { newSize in
                     viewSize = newSize
                 }
-            /// The ".position" modifier fix the center of the content.
                 .position(x: geometry.size.width / 2, y: geometry.size.height / 2)
                 .rotationEffect(rotationAngle, anchor: .center)
+                .onChange(of: totalAngle) { newValue in
+                    if !isDragged {
+                        if let animation = animation {
+                            withAnimation(animation) {
+                                rotationAngle = Angle(degrees: newValue)
+                                fullRotations = 0
+                            }
+                        } else {
+                            rotationAngle = Angle(degrees: newValue)
+                            fullRotations = 0
+                        }
+                    }
+                }
                 .gesture(
                     DragGesture(minimumDistance: 0)
                         .onChanged { value in
+                            isDragged = true
                             let dragAngle = angleForDrag(value: value, geometry: geometry)
                             let angleDifference = dragAngle.degrees - previousAngle
-
+                            
                             if angleDifference > 180 {
                                 fullRotations -= 1
                             } else if angleDifference < -180 {
                                 fullRotations += 1
                             }
-
+                            
                             let currentAngle = rotationAngle.degrees + angleDifference
                             rotationAngle = Angle(degrees: currentAngle)
                             previousAngle = dragAngle.degrees
-
-                            onAngleChanged(currentAngle + Double(fullRotations) * 360)
+                            
+                            let totalRotationAngle = currentAngle + Double(fullRotations) * 360
+                            onAngleChanged(totalRotationAngle)
+                            totalAngle = totalRotationAngle
                         }
                         .onEnded { _ in
+                            isDragged = false
                             previousAngle = 0
                         }
                 )
         }
-        /// This ".frame" modifier ensures that the content is at the center of the view always.
         .frame(width: viewSize.width, height: viewSize.height)
     }
     
@@ -79,12 +98,11 @@ struct ValueRotation: ViewModifier {
 }
 
 extension View {
-    func valueRotation(initialTotalAngle: Double, onAngleChanged: @escaping (Double) -> Void) -> some View {
-        self.modifier(ValueRotation(initialTotalAngle: initialTotalAngle, onAngleChanged: onAngleChanged))
+    func valueRotation(totalAngle: Binding<Double>, onAngleChanged: @escaping (Double) -> Void, animation: Animation? = nil) -> some View {
+        self.modifier(ValueRotation(totalAngle: totalAngle, onAngleChanged: onAngleChanged, animation: animation))
     }
 }
 
-/// This PreferenceKey is necessary for the calculation of the frame width and height of the content.
 struct FrameSizeKeyValueRotation: PreferenceKey {
     static var defaultValue: CGSize = .zero
     

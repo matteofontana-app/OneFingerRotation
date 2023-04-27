@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct FidgetSpinnerEffect: ViewModifier {
-     
+    
     /// Variable for the angle of rotation of the Fidget Spinner.
     @State private var rotationAngle: Angle = .degrees(0.0)
     
@@ -36,11 +36,12 @@ struct FidgetSpinnerEffect: ViewModifier {
     /// Threshold value.
     let rotationThreshold: CGFloat = 1.0
     
+    
     /// Initialization of three declarable and optional values.
     init(friction: CGFloat = 0.995, velocityMultiplier: CGFloat = 0.1, rotationAngle: Angle = .degrees(0.0)) {
-            _friction = State(initialValue: friction)
-            _velocityMultiplier = State(initialValue: velocityMultiplier)
-            _rotationAngle = State(initialValue: rotationAngle)
+        _friction = State(initialValue: friction)
+        _velocityMultiplier = State(initialValue: velocityMultiplier)
+        _rotationAngle = State(initialValue: rotationAngle)
     }
     
     
@@ -137,5 +138,16 @@ struct FrameSizeKeyFidgetSpinner: PreferenceKey {
     
     static func reduce(value: inout CGSize, nextValue: () -> CGSize) {
         value = nextValue()
+    }
+}
+
+extension View {
+    func fidgetSpinnerEffect(friction: CGFloat? = nil, velocityMultiplier: CGFloat? = nil, rotationAngle: Angle? = nil) -> some View {
+        let effect = FidgetSpinnerEffect(
+            friction: friction ?? 0.995,
+            velocityMultiplier: velocityMultiplier ?? 0.1,
+            rotationAngle: rotationAngle ?? .degrees(0.0)
+        )
+        return self.modifier(effect)
     }
 }

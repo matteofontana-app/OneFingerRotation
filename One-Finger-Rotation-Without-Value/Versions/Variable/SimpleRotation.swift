@@ -54,3 +54,12 @@ struct SimpleRotation: ViewModifier {
             )
     }
 }
+
+extension View {
+    func simpleRotation(rotationAngle: Angle? = nil) -> some View {
+        let effect = SimpleRotation(
+            rotationAngle: rotationAngle ?? .degrees(0.0)
+        )
+        return self.modifier(effect)
+    }
+}

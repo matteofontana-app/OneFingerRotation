@@ -12,6 +12,7 @@ struct One_Finger_Rotation_Without_ValueApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .preferredColorScheme(.light)
         }
     }
 }
