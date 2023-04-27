@@ -1,6 +1,6 @@
 //
 //  FidgetSpinnerModifier.swift
-//  Fidget Spinner View Modifier
+//  One-Finger-Rotation-Framework
 //
 //  Created by Matteo Fontana on 23/04/23.
 //
@@ -10,7 +10,7 @@ import SwiftUI
 struct FidgetSpinnerEffect: ViewModifier {
      
     /// Variable for the angle of rotation of the Fidget Spinner.
-    @State private var rotationAngle: Angle = .zero
+    @State private var rotationAngle: Angle = .degrees(0.0)
     
     /// Variable for the gesture rotation.
     @GestureState private var gestureRotation: Angle = .zero
@@ -33,8 +33,15 @@ struct FidgetSpinnerEffect: ViewModifier {
     /// viewSize is needed for the calculation of the Width and Height of the View.
     @State private var viewSize: CGSize = .zero
     
-    /// Threshold value
+    /// Threshold value.
     let rotationThreshold: CGFloat = 1.0
+    
+    /// Initialization of three declarable and optional values.
+    init(friction: CGFloat = 0.995, velocityMultiplier: CGFloat = 0.1, rotationAngle: Angle = .degrees(0.0)) {
+            _friction = State(initialValue: friction)
+            _velocityMultiplier = State(initialValue: velocityMultiplier)
+            _rotationAngle = State(initialValue: rotationAngle)
+    }
     
     
     func body(content: Content) -> some View {

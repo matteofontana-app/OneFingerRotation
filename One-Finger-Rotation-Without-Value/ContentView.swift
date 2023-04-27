@@ -1,6 +1,7 @@
 //
 //  ContentView.swift
-//  One-Finger-Rotation
+//  One-Finger-Rotation-Framework
+//
 //  Created by Matteo Fontana on 22/04/23.
 //
 
@@ -21,16 +22,20 @@ struct ContentView: View {
         //KnobInertia()
         //ValueRotationInertia()
         VStack {
-            Spacer()
-            Rectangle()
-                .foregroundColor(.red)
-                .frame(width: 300, height: 300)
-                .modifier(FidgetSpinnerEffect(friction: 0.995, velocityMultiplier: 0.1))
+            Image("FidgetSpinner")
+                .resizable()
+                .frame(width: 200, height: 200)
+                .modifier(SimpleRotation(rotationAngle: .degrees(20)))
             Spacer()
             Image("FidgetSpinner")
                 .resizable()
-                .frame(width: 300, height: 300)
-                .modifier(FidgetSpinnerEffect(friction: 0.995, velocityMultiplier: 0.1))
+                .frame(width: 200, height: 200)
+                .modifier(FidgetSpinnerEffect(friction: 0.8, velocityMultiplier: 0.1, rotationAngle: .degrees(80.0)))
+            Spacer()
+            Image("FidgetSpinner")
+                .resizable()
+                .frame(width: 200, height: 200)
+                .modifier(FidgetSpinnerEffect())
         }
     }
 }

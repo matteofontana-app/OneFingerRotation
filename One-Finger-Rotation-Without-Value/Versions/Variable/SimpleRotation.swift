@@ -1,26 +1,22 @@
 //
-//  RotatableElement.swift
-//  One-Finger-Rotation
+//  SimpleRotation.swift
+//  One-Finger-Rotation-Framework
 //
 //  Created by Matteo Fontana on 23/04/23.
 //
 
 import SwiftUI
 
-//This is the Rotable Element
-struct RotatableElement: View {
-    
-    //Rotation Gesture variables: Angle of rotation at the end of gesture and real time value
+struct SimpleRotation: ViewModifier {
     @State private var rotationAngle: Angle = .zero
     @GestureState private var gestureRotation: Angle = .zero
-
-    var body: some View {
-        
-        //Replace this with the view you want to rotate
-        Rectangle()
-            .fill(Color.red)
-            .frame(width: 200, height: 200)
-        
+    
+    init(rotationAngle: Angle = .degrees(0.0)) {
+            _rotationAngle = State(initialValue: rotationAngle)
+    }
+    
+    func body(content: Content) -> some View {
+        content
             //Apply this modifier to apply the rotation effect
             .rotationEffect(rotationAngle + gestureRotation)
         
@@ -56,11 +52,5 @@ struct RotatableElement: View {
                         rotationAngle = rotationAngle + Angle(radians: -Double(angleDifference))
                     }
             )
-    }
-}
-
-struct RotatableElement_Previews: PreviewProvider {
-    static var previews: some View {
-        RotatableElement()
     }
 }
