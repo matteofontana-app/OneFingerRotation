@@ -110,3 +110,4 @@ struct FrameSizeKeyValueRotation: PreferenceKey {
         value = nextValue()
     }
 }
+ 

@@ -1,13 +1,15 @@
 //
-//  ValueRotationInertia.swift
+//  ValueAutoRotationInertia.swift
 //  One-Finger-Rotation-Without-Value
 //
-//  Created by Matteo Fontana on 26/04/23.
+//  Created by Matteo Fontana on 27/04/23.
 //
+
+import Foundation
 
 import SwiftUI
 
-struct ValueRotationInertia: View {
+struct ValueAutoRotationInertiaTest: View {
     @State private var rotationAngle: Angle = .degrees(0)
     @State private var previousAngle: Double = 0
     @State private var totalAngle: Double = 0
@@ -20,7 +22,7 @@ struct ValueRotationInertia: View {
 
     var body: some View {
         VStack {
-            Text("\(totalAngle/360, specifier: "%.4f")")
+            Text("\(totalAngle, specifier: "%.4f")")
                 .font(.largeTitle)
                 .padding()
             Spacer()
@@ -100,11 +102,5 @@ struct ValueRotationInertia: View {
             timer?.invalidate()
             velocity = 0
         }
-    }
-}
-
-struct ValueRotationInertia_Previews: PreviewProvider {
-    static var previews: some View {
-        ValueRotationInertia()
     }
 }

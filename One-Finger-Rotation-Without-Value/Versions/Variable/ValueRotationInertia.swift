@@ -7,42 +7,32 @@
 
 import SwiftUI
 
-struct FidgetSpinnerEffect: ViewModifier {
-     
-    /// Variable for the angle of rotation of the Fidget Spinner.
-    @State private var rotationAngle: Angle = .degrees(0.0)
-    
-    /// Variable for the gesture rotation.
+struct FidgetSpinnerValueEffect: ViewModifier {
+    @State private var rotationAngle: Angle = .degrees(0)
     @GestureState private var gestureRotation: Angle = .zero
-    
-    /// Variable for the last speed of the finger on the screen.
     @State private var lastVelocity: CGFloat = 0
-    
-    /// Variable to check if the Fidget Spinner is spinning.
     @State private var isSpinning = false
-    
-    /// Variable for the timer of the spinning action.
     @State private var timer: Timer?
-    
-    /// Variable for friction, useful for slider, value should have an interval from 0.000  to 1.000.
     @Binding var friction: CGFloat
-    
-    /// Velocity multiplier, stock value should be 0.1, value should range from 0.0 to 1.0.
     @Binding var velocityMultiplier: CGFloat
-    
-    /// viewSize is needed for the calculation of the Width and Height of the View.
     @State private var viewSize: CGSize = .zero
-    
-    /// Threshold value.
+    var animation: Animation?
+    @State private var isDragged: Bool = false
     let rotationThreshold: CGFloat = 12.0
+    var onAngleChanged: (Double) -> Void
+    @Binding var totalAngle: Double
+    
     
     
     /// Initialization of three declarable and optional values.
-    init(friction: Binding<CGFloat> = .constant(0.995), velocityMultiplier: Binding<CGFloat> = .constant(0.1), rotationAngle: Angle = .degrees(0.0)) {
-            self._friction = friction
-            self._velocityMultiplier = velocityMultiplier
-            _rotationAngle = State(initialValue: rotationAngle)
-        }
+    init(totalAngle: Binding<Double>, friction: Binding<CGFloat> = .constant(0.995), velocityMultiplier: Binding<CGFloat> = .constant(0.1), rotationAngle: Angle = .degrees(0.0), animation: Animation? = nil, onAngleChanged: @escaping (Double) -> Void) {
+        self._totalAngle = totalAngle
+        self._friction = friction
+        self._velocityMultiplier = velocityMultiplier
+        self.rotationAngle = Angle(degrees: totalAngle.wrappedValue)
+        self.onAngleChanged = onAngleChanged
+        self.animation = animation
+    }
     
     
     func body(content: Content) -> some View {
@@ -53,10 +43,10 @@ struct FidgetSpinnerEffect: ViewModifier {
             /// The ".background" modifier and the ".onPreferenceChange" update the automatic frame calculation of the content.
                 .background(
                     GeometryReader { geometry in
-                        Color.clear.preference(key: FrameSizeKeyFidgetSpinner.self, value: geometry.size)
+                        Color.clear.preference(key: FrameSizeKeyFidgetSpinnerValue.self, value: geometry.size)
                     }
                 )
-                .onPreferenceChange(FrameSizeKeyFidgetSpinner.self) { newSize in
+                .onPreferenceChange(FrameSizeKeyFidgetSpinnerValue.self) { newSize in
                     viewSize = newSize
                 }
             /// The ".position" modifier fix the center of the content.
@@ -65,21 +55,52 @@ struct FidgetSpinnerEffect: ViewModifier {
             /// The ".rotationEffect" modifier is necessary for the gesture functions, it applies the specific rotation.
                 .rotationEffect(rotationAngle + gestureRotation, anchor: .center)
             
+                .onChange(of: totalAngle) { newValue in
+                    if !isDragged {
+                        if let animation = animation {
+                            withAnimation(animation) {
+                                rotationAngle = Angle(degrees: newValue)
+                            }
+                        } else {
+                            rotationAngle = Angle(degrees: newValue)
+                        }
+                    }
+                }
+            
             /// The ".gesture" modifier is necessary for the gesture functions.
                 .gesture(
                     DragGesture(minimumDistance: 0)
                         .updating($gestureRotation) { value, state, _ in
+                            let previousState = state
                             state = calculateRotationAngle(value: value, geometry: geometry)
+                            let deltaAngle = state.degrees - previousState.degrees
+                            if abs(deltaAngle) > 180 {
+                                let adjustedDeltaAngle = deltaAngle > 0 ? deltaAngle - 360 : deltaAngle + 360
+                                rotationAngle.degrees += adjustedDeltaAngle
+                            } else {
+                                rotationAngle.degrees += deltaAngle
+                            }
+                            onAngleChanged(rotationAngle.degrees)
+                            
+                            // Invalidate the timer to stop inertia when dragging
+                            timer?.invalidate()
+                            isSpinning = false
                         }
                         .onChanged { _ in
+                            isDragged = true
                             timer?.invalidate()
                         }
                         .onEnded { value in
+                            isDragged = false
                             let angleDifference = calculateRotationAngle(value: value, geometry: geometry)
                             rotationAngle = rotationAngle + angleDifference
+                            
+                            // Update the rotationAngle and gestureRotation values
+                            rotationAngle += gestureRotation
+                            
                             let velocity = CGPoint(x: value.predictedEndLocation.x - value.location.x, y: value.predictedEndLocation.y - value.location.y)
                             lastVelocity = sqrt(pow(velocity.x, 2) + pow(velocity.y, 2)) * velocityMultiplier
-                            
+                            onAngleChanged(rotationAngle.degrees)
                             if abs(velocity.x) > rotationThreshold || abs(velocity.y) > rotationThreshold {
                                 isSpinning = true
                                 timer?.invalidate()
@@ -87,8 +108,8 @@ struct FidgetSpinnerEffect: ViewModifier {
                                     let rotationDirection = angleDifference >= .zero ? 1.0 : -1.0
                                     let angle = Angle(degrees: Double(lastVelocity) * rotationDirection)
                                     rotationAngle += angle
+                                    onAngleChanged(rotationAngle.degrees)
                                     lastVelocity *= friction
-                                    
                                     if lastVelocity < 0.1 {
                                         timer.invalidate()
                                         isSpinning = false
@@ -98,7 +119,6 @@ struct FidgetSpinnerEffect: ViewModifier {
                                 timer?.invalidate()
                                 isSpinning = false
                             }
-                            
                         }
                 )
             
@@ -134,7 +154,7 @@ struct FidgetSpinnerEffect: ViewModifier {
 }
 
 /// This PreferenceKey is necessary for the calculation of the frame width and height of the content.
-struct FrameSizeKeyFidgetSpinner: PreferenceKey {
+struct FrameSizeKeyFidgetSpinnerValue: PreferenceKey {
     static var defaultValue: CGSize = .zero
     
     static func reduce(value: inout CGSize, nextValue: () -> CGSize) {
@@ -143,11 +163,13 @@ struct FrameSizeKeyFidgetSpinner: PreferenceKey {
 }
 
 extension View {
-    func fidgetSpinnerEffect(friction: Binding<CGFloat>? = nil, velocityMultiplier: Binding<CGFloat>? = nil, rotationAngle: Angle? = nil, bindingFriction: Binding<CGFloat>? = nil, bindingVelocityMultiplier: Binding<CGFloat>? = nil) -> some View {
-        let effect = FidgetSpinnerEffect(
+    func fidgetSpinnerValueEffect(totalAngle: Binding<Double>, friction: Binding<CGFloat>? = nil, onAngleChanged: @escaping (Double) -> Void, velocityMultiplier: Binding<CGFloat>? = nil, animation: Animation? = nil) -> some View {
+        let effect = FidgetSpinnerValueEffect(
+            totalAngle: totalAngle,
             friction: friction ?? .constant(0.995),
             velocityMultiplier: velocityMultiplier ?? .constant(0.1),
-            rotationAngle: rotationAngle ?? .degrees(0.0)
+            animation: animation,
+            onAngleChanged: onAngleChanged
         )
         return self.modifier(effect)
     }
