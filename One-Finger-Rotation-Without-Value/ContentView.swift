@@ -11,7 +11,7 @@ struct ContentView: View {
     @State private var totalAngle1: Double = 0
     @State private var totalAngle2: Double = 0
     
-    @State private var totalAngle3: Double = 80
+    @State private var totalAngle3: Double = 0
     @State var sliderValue: CGFloat = 0.995
     
     var body: some View {
@@ -22,7 +22,7 @@ struct ContentView: View {
             ZStack{
                 Image("FidgetSpinner")
                     .resizable()
-                    .frame(width: 200, height: 200)
+                    .frame(width: 300, height: 300)
                 VStack{
                     Rectangle()
                         .foregroundColor(.red)
@@ -30,11 +30,11 @@ struct ContentView: View {
                     Spacer()
                 }
             }
-            .frame(width: 200, height: 200)
+            .frame(width: 300, height: 300)
             // Your spinner view using a fixed value for friction
-            .fidgetSpinnerValueEffect(totalAngle: $totalAngle3, friction: .constant(0.995), onAngleChanged: { newAngle in
+            .fidgetSpinnerValueEffect(totalAngle: $totalAngle3, friction: $sliderValue, onAngleChanged: { newAngle in
                 totalAngle3 = newAngle
-            }, velocityMultiplier: .constant(0.1), animation: .spring())
+            }, velocityMultiplier: .constant(0.1), animation: .spring(), stoppingAnimation: .constant(false))
             
             // Your spinner view using the binding for friction
 //            .fidgetSpinnerValueEffect(totalAngle: $totalAngle3, friction: $sliderValue, onAngleChanged: { newAngle in
