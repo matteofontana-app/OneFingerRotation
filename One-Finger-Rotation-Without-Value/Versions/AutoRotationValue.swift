@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct AutoRotation: View {
+struct AutoRotationValue: View {
     @State private var rotationAngle: Angle = .degrees(0)
     @State private var previousAngle: Double = 0
     @State private var totalAngle: Double = 0
@@ -18,7 +18,7 @@ struct AutoRotation: View {
     @State private var resumeAngle: Double = 0
     @State private var rotationReset: Bool = false
     
-    let speed: Double = 100 // Speed of rotation in degrees per second
+    let speed: Double = -100 // Speed of rotation in degrees per second
 
     var body: some View {
         VStack {
@@ -102,8 +102,8 @@ struct AutoRotation: View {
     }
 }
 
-struct AutoRotation_Previews: PreviewProvider {
+struct AutoRotationValue_Previews: PreviewProvider {
     static var previews: some View {
-        AutoRotation()
+        AutoRotationValue()
     }
 }

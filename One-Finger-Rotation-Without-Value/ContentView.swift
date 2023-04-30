@@ -16,6 +16,9 @@ struct ContentView: View {
     @State var sliderValue: CGFloat = 0.995
     @State var valueChange: Bool = false
     
+    @State private var autoRotationSpeed: Double = 100
+        @State private var autoRotationActive: Bool = false
+    
     var body: some View {
         //Versions here
         VStack {
@@ -84,26 +87,26 @@ struct ContentView: View {
             
             
             /// Knob Rotation
-            ZStack{
-                Circle()
-                    .foregroundColor(.green)
-                VStack{
-                    Rectangle()
-                        .frame(width: 20, height: 80)
-                    Spacer()
-                }
-            }
-                .frame(width: 200, height: 200)
-                .foregroundColor(.red)
-                .knobRotation(knobValue: $knobValue, minAngle: -180, maxAngle: 180, onKnobValueChanged: { newValue in
-                    knobValue = newValue
-                }, animation: .spring())
-            Text("Total Angle: \(knobValue, specifier: "%.2f")")
-            Button(action: {
-                knobValue = 0.6
-            }, label: {
-                Text("Test")
-            })
+//            ZStack{
+//                Circle()
+//                    .foregroundColor(.green)
+//                VStack{
+//                    Rectangle()
+//                        .frame(width: 20, height: 80)
+//                    Spacer()
+//                }
+//            }
+//                .frame(width: 200, height: 200)
+//                .foregroundColor(.red)
+//                .knobRotation(knobValue: $knobValue, minAngle: -180, maxAngle: 180, onKnobValueChanged: { newValue in
+//                    knobValue = newValue
+//                }, animation: .spring())
+//            Text("Total Angle: \(knobValue, specifier: "%.2f")")
+//            Button(action: {
+//                knobValue = 0.6
+//            }, label: {
+//                Text("Test")
+//            })
             
             
             
@@ -120,6 +123,19 @@ struct ContentView: View {
 //                .fidgetSpinnerEffect()
             
             
+            ///Auto Rotation
+            Rectangle()
+                .frame(width: 200, height: 200)
+                .autoRotation(rotationAngle: .degrees(20), autoRotationSpeed: $autoRotationSpeed, autoRotationActive: $autoRotationActive)
+            Button(action: {
+                autoRotationActive.toggle()
+            }, label: {
+                Text("Test")
+            })
+            /// Stock values are 0.0, 20.0, true
+//            Rectangle()
+//                .frame(width: 200, height: 200)
+//                .autoRotation()
             
             /// Simple Rotation
 //            Image("FidgetSpinner")
