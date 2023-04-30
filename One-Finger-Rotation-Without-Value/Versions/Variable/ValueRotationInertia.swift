@@ -57,18 +57,39 @@ struct FidgetSpinnerValueEffect: ViewModifier {
                 .rotationEffect(rotationAngle + gestureRotation, anchor: .center)
             
                 .onChange(of: totalAngle) { newValue in
-                    if !isDragged {
+                    if !isDragged && isSpinning {
                         if let animation = animation {
                             withAnimation(animation) {
+                                rotationAngle = Angle(degrees: newValue)
                                 if stoppingAnimation {
                                     timer?.invalidate()
                                     isSpinning = false
                                 }
+                                stoppingAnimation = false
+                            }
+                        } else {
+                            rotationAngle = Angle(degrees: newValue)
+                            if stoppingAnimation {
+                                timer?.invalidate()
+                                isSpinning = false
+                            }
+                            stoppingAnimation = false
+                        }
+                    }
+                    if !isDragged && !isSpinning {
+                        if let animation = animation {
+                            withAnimation(animation) {
                                 rotationAngle = Angle(degrees: newValue)
                             }
                         } else {
                             rotationAngle = Angle(degrees: newValue)
                         }
+                    }
+                }
+            
+                .onChange(of: stoppingAnimation) { newValue in
+                    if !isSpinning && !isDragged {
+                        stoppingAnimation = false
                     }
                 }
             

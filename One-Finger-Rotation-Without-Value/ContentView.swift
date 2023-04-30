@@ -13,6 +13,7 @@ struct ContentView: View {
     
     @State private var totalAngle3: Double = 0
     @State var sliderValue: CGFloat = 0.995
+    @State var valueChange: Bool = false
     
     var body: some View {
         //Versions here
@@ -34,15 +35,17 @@ struct ContentView: View {
             // Your spinner view using a fixed value for friction
             .fidgetSpinnerValueEffect(totalAngle: $totalAngle3, friction: $sliderValue, onAngleChanged: { newAngle in
                 totalAngle3 = newAngle
-            }, velocityMultiplier: .constant(0.1), animation: .spring(), stoppingAnimation: .constant(false))
+            }, velocityMultiplier: .constant(0.1), animation: .spring(), stoppingAnimation: $valueChange)
             
             // Your spinner view using the binding for friction
 //            .fidgetSpinnerValueEffect(totalAngle: $totalAngle3, friction: $sliderValue, onAngleChanged: { newAngle in
 //                totalAngle3 = newAngle
 //            }, velocityMultiplier: .constant(0.1), animation: .spring())
+            Spacer()
             Text("Total Angle: \(totalAngle3, specifier: "%.2f")")
             Button(action: {
-                totalAngle3 = 0
+                totalAngle3 = 40
+                valueChange = true
             }, label: {
                 Text("Test")
             })
