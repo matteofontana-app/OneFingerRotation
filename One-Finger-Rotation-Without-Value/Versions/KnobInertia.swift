@@ -8,11 +8,11 @@
 import SwiftUI
 
 struct KnobInertia: View {
-    @State private var rotationAngle: Angle = .degrees(0) // Set the initial rotation angle
+    @State private var rotationAngle: Angle = .degrees(-90) // Set the initial rotation angle
     @State private var previousAngle: Double = 0
     @State private var knobValue: Double = 0.5 // Set the initial knob value
-    let minAngle: Double = -90
-    let maxAngle: Double = 90
+    let minAngle: Double = -180
+    let maxAngle: Double = 0
 
     var body: some View {
         VStack {

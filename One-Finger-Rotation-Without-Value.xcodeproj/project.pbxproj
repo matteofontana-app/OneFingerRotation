@@ -18,6 +18,7 @@
 		4D281B5C29F59AF40064AF7A /* FidgetSpinnerModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D281B5B29F59AF40064AF7A /* FidgetSpinnerModifier.swift */; };
 		4D59C96529F9840F001C6B98 /* KnobInertia.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D59C96429F9840F001C6B98 /* KnobInertia.swift */; };
 		4D59C96729F9919D001C6B98 /* ValueRotationInertia.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D59C96629F9919D001C6B98 /* ValueRotationInertia.swift */; };
+		4D7DE21F29FEF64400FD9162 /* KnobRotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D7DE21E29FEF64400FD9162 /* KnobRotation.swift */; };
 		4DAB142129FB026100315481 /* ValueAutoRotationInertia.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DAB142029FB026100315481 /* ValueAutoRotationInertia.swift */; };
 /* End PBXBuildFile section */
 
@@ -34,6 +35,7 @@
 		4D281B5B29F59AF40064AF7A /* FidgetSpinnerModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FidgetSpinnerModifier.swift; sourceTree = "<group>"; };
 		4D59C96429F9840F001C6B98 /* KnobInertia.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KnobInertia.swift; sourceTree = "<group>"; };
 		4D59C96629F9919D001C6B98 /* ValueRotationInertia.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValueRotationInertia.swift; sourceTree = "<group>"; };
+		4D7DE21E29FEF64400FD9162 /* KnobRotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KnobRotation.swift; sourceTree = "<group>"; };
 		4DAB142029FB026100315481 /* ValueAutoRotationInertia.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValueAutoRotationInertia.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -91,6 +93,7 @@
 				4D281B5B29F59AF40064AF7A /* FidgetSpinnerModifier.swift */,
 				4D281B5629F58DE00064AF7A /* ValueRotation.swift */,
 				4D59C96629F9919D001C6B98 /* ValueRotationInertia.swift */,
+				4D7DE21E29FEF64400FD9162 /* KnobRotation.swift */,
 			);
 			path = Variable;
 			sourceTree = "<group>";
@@ -180,6 +183,7 @@
 				4D281B5C29F59AF40064AF7A /* FidgetSpinnerModifier.swift in Sources */,
 				4D1A065D29F43E350077A31A /* ContentView.swift in Sources */,
 				4D59C96729F9919D001C6B98 /* ValueRotationInertia.swift in Sources */,
+				4D7DE21F29FEF64400FD9162 /* KnobRotation.swift in Sources */,
 				4D59C96529F9840F001C6B98 /* KnobInertia.swift in Sources */,
 				4D281B5729F58DE00064AF7A /* ValueRotation.swift in Sources */,
 				4D281B5929F58EF30064AF7A /* AutoRotation.swift in Sources */,
