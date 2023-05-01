@@ -12,12 +12,17 @@ struct ContentView: View {
     @State private var totalAngle2: Double = 0
     
     @State private var totalAngle3: Double = 0
+    @State private var totalAngle4: Double = 0
     @State private var knobValue: Double = 0.5
+    @State private var knobValue2: Double = 0.5
     @State var sliderValue: CGFloat = 0.995
     @State var valueChange: Bool = false
     
-    @State private var autoRotationSpeed: Double = 100
+    //@State private var autoRotationSpeed: Double = 100
         @State private var autoRotationActive: Bool = false
+    
+    @State private var autoRotationSpeed: Double = 100 // Adjust the speed as needed
+    @State private var autoRotationEnabled: Bool = true
     
     var body: some View {
         //Versions here
@@ -87,6 +92,32 @@ struct ContentView: View {
             
             
             /// Knob Rotation
+            ZStack{
+                Circle()
+                    .foregroundColor(.green)
+                VStack{
+                    Rectangle()
+                        .frame(width: 20, height: 80)
+                    Spacer()
+                }
+            }
+                .frame(width: 300, height: 300)
+                .foregroundColor(.red)
+                .knobInertia(knobValue: $knobValue2, minAngle: -180, maxAngle: 180, friction: .constant(0.8), onKnobValueChanged: { newValue in
+                    knobValue2 = newValue
+                }, velocityMultiplier: .constant(0.1), animation: .spring(), stoppingAnimation: $valueChange)
+            Text("Total Angle: \(knobValue2, specifier: "%.2f")")
+            Button(action: {
+                knobValue2 = 0.6
+                valueChange = true
+            }, label: {
+                Text("Test")
+            })
+            
+            
+            
+            
+            /// Knob Rotation
 //            ZStack{
 //                Circle()
 //                    .foregroundColor(.green)
@@ -123,19 +154,65 @@ struct ContentView: View {
 //                .fidgetSpinnerEffect()
             
             
+            ///Auto Value Rotation
+//            Spacer()
+//            Rectangle()
+//                .frame(width: 200, height: 200)
+//                .valueAutoRotation(
+//                        totalAngle: $totalAngle4,
+//                        onAngleChanged: { newAngle in
+//                            totalAngle4 = newAngle
+//                        }, animation: .spring(),
+//                        autoRotationSpeed: $autoRotationSpeed,
+//                        autoRotationEnabled: $autoRotationEnabled
+//                    )
+//            Spacer()
+//            Button(action: {
+//                autoRotationEnabled.toggle()
+//            }, label: {
+//                Text("Test")
+//            })
+//            Spacer()
+//            Text("Total Angle: \(totalAngle4, specifier: "%.2f")")
+//            Spacer()
+//            Button(action: {
+//                autoRotationSpeed = -1*autoRotationSpeed
+//            }, label: {
+//                Text("change")
+//            })
+//            Spacer()
+//            Button(action: {
+//                totalAngle4 = 0
+//            }, label: {
+//                Text("reset")
+//            })
+            
+            
+            
             ///Auto Rotation
-            Rectangle()
-                .frame(width: 200, height: 200)
-                .autoRotation(rotationAngle: .degrees(20), autoRotationSpeed: $autoRotationSpeed, autoRotationActive: $autoRotationActive)
-            Button(action: {
-                autoRotationActive.toggle()
-            }, label: {
-                Text("Test")
-            })
+//            Spacer()
+//            Rectangle()
+//                .frame(width: 200, height: 200)
+//                .autoRotation(rotationAngle: .degrees(20), autoRotationSpeed: $autoRotationSpeed, autoRotationActive: $autoRotationActive)
+//            Spacer()
+//            Button(action: {
+//                autoRotationActive.toggle()
+//            }, label: {
+//                Text("Test")
+//            })
+//            Spacer()
+//            Button(action: {
+//                autoRotationSpeed = -1*autoRotationSpeed
+//            }, label: {
+//                Text("change")
+//            })
             /// Stock values are 0.0, 20.0, true
 //            Rectangle()
 //                .frame(width: 200, height: 200)
 //                .autoRotation()
+            
+            
+            
             
             /// Simple Rotation
 //            Image("FidgetSpinner")
