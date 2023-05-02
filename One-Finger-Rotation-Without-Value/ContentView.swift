@@ -17,6 +17,7 @@ struct ContentView: View {
     @State private var knobValue2: Double = 0.5
     @State var sliderValue: CGFloat = 0.995
     @State var valueChange: Bool = false
+    @State var angleSnap: Double = 40
     
     //@State private var autoRotationSpeed: Double = 100
         @State private var autoRotationActive: Bool = false
@@ -92,27 +93,36 @@ struct ContentView: View {
             
             
             /// Knob Rotation
-            ZStack{
-                Circle()
-                    .foregroundColor(.green)
-                VStack{
-                    Rectangle()
-                        .frame(width: 20, height: 80)
-                    Spacer()
-                }
-            }
-                .frame(width: 300, height: 300)
-                .foregroundColor(.red)
-                .knobInertia(knobValue: $knobValue2, minAngle: -180, maxAngle: 180, friction: .constant(0.8), onKnobValueChanged: { newValue in
-                    knobValue2 = newValue
-                }, velocityMultiplier: .constant(0.1), animation: .spring(), stoppingAnimation: $valueChange)
-            Text("Total Angle: \(knobValue2, specifier: "%.2f")")
-            Button(action: {
-                knobValue2 = 0.6
-                valueChange = true
-            }, label: {
-                Text("Test")
-            })
+//            ZStack{
+//                Circle()
+//                    .foregroundColor(.green)
+//                VStack{
+//                    Rectangle()
+//                        .frame(width: 20, height: 80)
+//                    Spacer()
+//                }
+//            }
+//                .frame(width: 300, height: 300)
+//                .foregroundColor(.red)
+//                .knobInertia(
+//                    knobValue: $knobValue2,
+//                    minAngle: -180,
+//                    maxAngle: 180,
+//                    friction: .constant(0.8),
+//                    onKnobValueChanged: { newValue in
+//                        knobValue2 = newValue
+//                    },
+//                    velocityMultiplier: .constant(0.1),
+//                    animation: .spring(),
+//                    stoppingAnimation: $valueChange
+//                )
+//            Text("Total Angle: \(knobValue2, specifier: "%.2f")")
+//            Button(action: {
+//                knobValue2 = 0.6
+//                valueChange = true
+//            }, label: {
+//                Text("Test")
+//            })
             
             
             
@@ -215,11 +225,11 @@ struct ContentView: View {
             
             
             /// Simple Rotation
-//            Image("FidgetSpinner")
-//                .resizable()
-//                .frame(width: 200, height: 200)
-//                .simpleRotation(rotationAngle: .degrees(20))
-//                /// Stock rotationAngle .degrees(0)
+            Image("FidgetSpinner")
+                .resizable()
+                .frame(width: 300, height: 300)
+                .simpleRotation(rotationAngle: .degrees(20),angleSnap: .constant(40))
+                /// Stock rotationAngle .degrees(0)
 //            Spacer()
 //            Image("FidgetSpinner")
 //                .resizable()
