@@ -89,7 +89,6 @@
 		4D27980629FA6256008A5076 /* Variable 1.0 */ = {
 			isa = PBXGroup;
 			children = (
-				4D281B5B29F59AF40064AF7A /* FidgetSpinnerModifier.swift */,
 				4D281B5629F58DE00064AF7A /* ValueRotation.swift */,
 				4D7DE22229FF107700FD9162 /* AutoRotation.swift */,
 				4D59C96629F9919D001C6B98 /* ValueRotationInertia.swift */,
@@ -114,6 +113,7 @@
 			isa = PBXGroup;
 			children = (
 				4D281B5429F58BE30064AF7A /* SimpleRotation.swift */,
+				4D281B5B29F59AF40064AF7A /* FidgetSpinnerModifier.swift */,
 			);
 			path = "Variable 2.0";
 			sourceTree = "<group>";

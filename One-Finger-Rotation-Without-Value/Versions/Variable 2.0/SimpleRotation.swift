@@ -20,7 +20,6 @@ struct SimpleRotation: ViewModifier {
     func body(content: Content) -> some View {
         content
             .rotationEffect(rotationAngle + gestureRotation)
-            .animation(gestureRotation != .zero ? .easeInOut : .none)
             .gesture(
                 DragGesture()
                     .updating($gestureRotation) { value, state, _ in

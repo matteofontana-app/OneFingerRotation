@@ -17,7 +17,7 @@ struct ContentView: View {
     @State private var knobValue2: Double = 0.5
     @State var sliderValue: CGFloat = 0.995
     @State var valueChange: Bool = false
-    @State var angleSnap: Double = 40
+    @State var angleSnap: Double = 60
     
     //@State private var autoRotationSpeed: Double = 100
         @State private var autoRotationActive: Bool = false
@@ -152,10 +152,17 @@ struct ContentView: View {
             
             
             /// Fidget Spinner Effect
-//            Image("FidgetSpinner")
-//                .resizable()
-//                .frame(width: 200, height: 200)
-//                .fidgetSpinnerEffect(friction: $sliderValue, velocityMultiplier: .constant(0.6), rotationAngle: .degrees(80.0))
+            ZStack{
+                Circle()
+                    .foregroundColor(.green)
+                VStack{
+                    Rectangle()
+                        .frame(width: 20, height: 80)
+                    Spacer()
+                }
+            }
+                .frame(width: 400, height: 400)
+                .fidgetSpinnerEffect(friction: $sliderValue, velocityMultiplier: .constant(0.1), decelerationFactor: .constant(0.4), rotationAngle: .degrees(0.0), angleSnap: .constant(60))
             /// Stock friction 0.995; velocityMultiplier: 0.1; rotationAngle .degrees(0)
 //            Spacer()
 //            Image("FidgetSpinner")
@@ -228,7 +235,7 @@ struct ContentView: View {
             Image("FidgetSpinner")
                 .resizable()
                 .frame(width: 300, height: 300)
-                .simpleRotation(rotationAngle: .degrees(20),angleSnap: .constant(40))
+                .simpleRotation(rotationAngle: .degrees(20), angleSnap: .constant(60))
                 /// Stock rotationAngle .degrees(0)
 //            Spacer()
 //            Image("FidgetSpinner")

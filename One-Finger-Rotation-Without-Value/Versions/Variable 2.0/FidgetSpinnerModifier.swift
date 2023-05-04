@@ -30,18 +30,25 @@ struct FidgetSpinnerEffect: ViewModifier {
     /// Velocity multiplier, stock value should be 0.1, value should range from 0.0 to 1.0.
     @Binding var velocityMultiplier: CGFloat
     
+    /// Velocity multiplier, stock value should be 0.1, value should range from 0.0 to 1.0.
+    @Binding var decelerationFactor: Double
+    
     /// viewSize is needed for the calculation of the Width and Height of the View.
     @State private var viewSize: CGSize = .zero
     
     /// Threshold value.
     let rotationThreshold: CGFloat = 12.0
     
+    @Binding private var angleSnap: Double?
+    
     
     /// Initialization of three declarable and optional values.
-    init(friction: Binding<CGFloat> = .constant(0.995), velocityMultiplier: Binding<CGFloat> = .constant(0.1), rotationAngle: Angle = .degrees(0.0)) {
+    init(friction: Binding<CGFloat> = .constant(0.995), velocityMultiplier: Binding<CGFloat> = .constant(0.1), decelerationFactor: Binding<Double> = .constant(0.5), rotationAngle: Angle = .degrees(0.0), angleSnap: Binding<Double?> = .constant(nil)) {
             self._friction = friction
             self._velocityMultiplier = velocityMultiplier
+            self._decelerationFactor = decelerationFactor
             _rotationAngle = State(initialValue: rotationAngle)
+            _angleSnap = angleSnap
         }
     
     
@@ -69,16 +76,17 @@ struct FidgetSpinnerEffect: ViewModifier {
                 .gesture(
                     DragGesture(minimumDistance: 0)
                         .updating($gestureRotation) { value, state, _ in
-                            state = calculateRotationAngle(value: value, geometry: geometry)
+                            state = calculateRotationAngle(value: value, geometry: geometry, angleSnap: angleSnap)
                         }
                         .onChanged { _ in
                             timer?.invalidate()
                         }
                         .onEnded { value in
-                            let angleDifference = calculateRotationAngle(value: value, geometry: geometry)
+                            let angleDifference = calculateRotationAngle(value: value, geometry: geometry, angleSnap: angleSnap)
                             rotationAngle = rotationAngle + angleDifference
                             let velocity = CGPoint(x: value.predictedEndLocation.x - value.location.x, y: value.predictedEndLocation.y - value.location.y)
-                            lastVelocity = sqrt(pow(velocity.x, 2) + pow(velocity.y, 2)) * velocityMultiplier
+                            lastVelocity = sqrt(pow(velocity.x, 2) + pow(velocity.y, 2)) * velocityMultiplier * decelerationFactor
+
                             
                             if abs(velocity.x) > rotationThreshold || abs(velocity.y) > rotationThreshold {
                                 isSpinning = true
@@ -89,6 +97,14 @@ struct FidgetSpinnerEffect: ViewModifier {
                                     rotationAngle += angle
                                     lastVelocity *= friction
                                     
+                                    if let snap = angleSnap {
+                                        rotationAngle = snapToAngle(rotationAngle, snap: snap, velocity: lastVelocity)
+                                    }
+
+
+
+
+                                    
                                     if lastVelocity < 0.1 {
                                         timer.invalidate()
                                         isSpinning = false
@@ -98,8 +114,9 @@ struct FidgetSpinnerEffect: ViewModifier {
                                 timer?.invalidate()
                                 isSpinning = false
                             }
-                            
                         }
+
+
                 )
             
             /// The ".onAppear" modifier is necessary for the gesture functions.
@@ -118,7 +135,7 @@ struct FidgetSpinnerEffect: ViewModifier {
     }
     
     /// The function calculateRotationAngle calculates the angle according to the finger movement.
-    private func calculateRotationAngle(value: DragGesture.Value, geometry: GeometryProxy) -> Angle {
+    private func calculateRotationAngle(value: DragGesture.Value, geometry: GeometryProxy, angleSnap: Double?) -> Angle {
         let centerX = value.startLocation.x - geometry.size.width / 2
         let centerY = value.startLocation.y - geometry.size.height / 2
         
@@ -129,8 +146,33 @@ struct FidgetSpinnerEffect: ViewModifier {
         let endVector = CGVector(dx: endX, dy: endY)
         
         let angleDifference = atan2(startVector.dy * endVector.dx - startVector.dx * endVector.dy, startVector.dx * endVector.dx + startVector.dy * endVector.dy)
-        return Angle(radians: -Double(angleDifference))
+        var angle = Angle(radians: -Double(angleDifference))
+        
+        if let snap = angleSnap {
+            let angleInDegrees = angle.degrees
+            let snappedAngle = round(angleInDegrees / snap) * snap
+            angle = Angle(degrees: snappedAngle)
+        }
+        
+        return angle
     }
+    
+    private func snapToAngle(_ angle: Angle, snap: Double, velocity: CGFloat) -> Angle {
+        let angleInDegrees = angle.degrees
+        let snappedAngle = round(angleInDegrees / snap) * snap
+        let snappedRotationAngle = Angle(degrees: snappedAngle)
+        let angleDiff = snappedRotationAngle - angle
+        let angleDiffDegrees = angleDiff.degrees
+        let snapThreshold = max(0.8 * Double(velocity), snap / 2)
+
+        if abs(angleDiffDegrees) < snapThreshold {
+            let interpolationFactor = 1 - abs(angleDiffDegrees) / snapThreshold
+            let interpolatedAngle = angleInDegrees + interpolationFactor * angleDiffDegrees
+            return Angle(degrees: interpolatedAngle)
+        }
+        return angle
+    }
+
 }
 
 /// This PreferenceKey is necessary for the calculation of the frame width and height of the content.
@@ -143,11 +185,13 @@ struct FrameSizeKeyFidgetSpinner: PreferenceKey {
 }
 
 extension View {
-    func fidgetSpinnerEffect(friction: Binding<CGFloat>? = nil, velocityMultiplier: Binding<CGFloat>? = nil, rotationAngle: Angle? = nil, bindingFriction: Binding<CGFloat>? = nil, bindingVelocityMultiplier: Binding<CGFloat>? = nil) -> some View {
+    func fidgetSpinnerEffect(friction: Binding<CGFloat>? = nil, velocityMultiplier: Binding<CGFloat>? = nil, decelerationFactor: Binding<Double>? = nil, rotationAngle: Angle? = nil, bindingFriction: Binding<CGFloat>? = nil, bindingVelocityMultiplier: Binding<CGFloat>? = nil, angleSnap: Binding<Double?> = .constant(nil)) -> some View {
         let effect = FidgetSpinnerEffect(
             friction: friction ?? .constant(0.995),
             velocityMultiplier: velocityMultiplier ?? .constant(0.1),
-            rotationAngle: rotationAngle ?? .degrees(0.0)
+            decelerationFactor: decelerationFactor ?? .constant(0.4),
+            rotationAngle: rotationAngle ?? .degrees(0.0),
+            angleSnap: angleSnap
         )
         return self.modifier(effect)
     }
