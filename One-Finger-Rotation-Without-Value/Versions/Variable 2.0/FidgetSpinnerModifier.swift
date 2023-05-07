@@ -33,6 +33,8 @@ struct FidgetSpinnerEffect: ViewModifier {
     /// Velocity multiplier, stock value should be 0.1, value should range from 0.0 to 1.0.
     @Binding var decelerationFactor: Double
     
+    @Binding var angleSnapShowFactor: Double
+    
     /// viewSize is needed for the calculation of the Width and Height of the View.
     @State private var viewSize: CGSize = .zero
     
@@ -42,13 +44,15 @@ struct FidgetSpinnerEffect: ViewModifier {
     @Binding private var angleSnap: Double?
     
     
+    
     /// Initialization of three declarable and optional values.
-    init(friction: Binding<CGFloat> = .constant(0.995), velocityMultiplier: Binding<CGFloat> = .constant(0.1), decelerationFactor: Binding<Double> = .constant(0.5), rotationAngle: Angle = .degrees(0.0), angleSnap: Binding<Double?> = .constant(nil)) {
+    init(friction: Binding<CGFloat> = .constant(0.995), velocityMultiplier: Binding<CGFloat> = .constant(0.1), decelerationFactor: Binding<Double> = .constant(0.5), rotationAngle: Angle = .degrees(0.0), angleSnap: Binding<Double?> = .constant(nil), angleSnapShowFactor: Binding<Double> = .constant(0.1)) {
             self._friction = friction
             self._velocityMultiplier = velocityMultiplier
             self._decelerationFactor = decelerationFactor
             _rotationAngle = State(initialValue: rotationAngle)
             _angleSnap = angleSnap
+            self._angleSnapShowFactor = angleSnapShowFactor
         }
     
     
@@ -98,12 +102,11 @@ struct FidgetSpinnerEffect: ViewModifier {
                                     lastVelocity *= friction
                                     
                                     if let snap = angleSnap {
-                                        rotationAngle = snapToAngle(rotationAngle, snap: snap, velocity: lastVelocity)
+                                        rotationAngle = snapToAngle(rotationAngle, snap: snap, velocity: lastVelocity, animation: { interpolationFactor in
+                                            return pow(interpolationFactor, angleSnapShowFactor*2)
+                                        })
+
                                     }
-
-
-
-
                                     
                                     if lastVelocity < 0.1 {
                                         timer.invalidate()
@@ -157,18 +160,25 @@ struct FidgetSpinnerEffect: ViewModifier {
         return angle
     }
     
-    private func snapToAngle(_ angle: Angle, snap: Double, velocity: CGFloat) -> Angle {
+    private func snapToAngle(_ angle: Angle, snap: Double, velocity: CGFloat, animation: ((_ interpolationFactor: Double) -> Double)? = nil) -> Angle {
         let angleInDegrees = angle.degrees
         let snappedAngle = round(angleInDegrees / snap) * snap
         let snappedRotationAngle = Angle(degrees: snappedAngle)
         let angleDiff = snappedRotationAngle - angle
         let angleDiffDegrees = angleDiff.degrees
-        let snapThreshold = max(0.8 * Double(velocity), snap / 2)
+        let snapThreshold = max(0.5 * Double(velocity), snap / 2)
 
         if abs(angleDiffDegrees) < snapThreshold {
-            let interpolationFactor = 1 - abs(angleDiffDegrees) / snapThreshold
+            var interpolationFactor = 1 - abs(angleDiffDegrees) / snapThreshold
+            if let animation = animation {
+                interpolationFactor = animation(interpolationFactor)
+            }
             let interpolatedAngle = angleInDegrees + interpolationFactor * angleDiffDegrees
             return Angle(degrees: interpolatedAngle)
+        } else {
+            let decelerationFactor = abs(angleDiffDegrees) / snap
+            let adjustedDeceleration = animation?(decelerationFactor) ?? decelerationFactor
+            lastVelocity *= max(0.9, 1 - adjustedDeceleration)
         }
         return angle
     }
@@ -185,13 +195,14 @@ struct FrameSizeKeyFidgetSpinner: PreferenceKey {
 }
 
 extension View {
-    func fidgetSpinnerEffect(friction: Binding<CGFloat>? = nil, velocityMultiplier: Binding<CGFloat>? = nil, decelerationFactor: Binding<Double>? = nil, rotationAngle: Angle? = nil, bindingFriction: Binding<CGFloat>? = nil, bindingVelocityMultiplier: Binding<CGFloat>? = nil, angleSnap: Binding<Double?> = .constant(nil)) -> some View {
+    func fidgetSpinnerEffect(friction: Binding<CGFloat>? = nil, velocityMultiplier: Binding<CGFloat>? = nil, decelerationFactor: Binding<Double>? = nil, rotationAngle: Angle? = nil, bindingFriction: Binding<CGFloat>? = nil, bindingVelocityMultiplier: Binding<CGFloat>? = nil, angleSnap: Binding<Double?> = .constant(nil), angleSnapShowFactor: Binding<Double>? = nil) -> some View {
         let effect = FidgetSpinnerEffect(
             friction: friction ?? .constant(0.995),
             velocityMultiplier: velocityMultiplier ?? .constant(0.1),
             decelerationFactor: decelerationFactor ?? .constant(0.4),
             rotationAngle: rotationAngle ?? .degrees(0.0),
-            angleSnap: angleSnap
+            angleSnap: angleSnap,
+            angleSnapShowFactor: angleSnapShowFactor ?? .constant(0.1)
         )
         return self.modifier(effect)
     }

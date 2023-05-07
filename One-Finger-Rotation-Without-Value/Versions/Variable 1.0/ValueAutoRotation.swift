@@ -20,7 +20,13 @@ struct ValueAutoRotation: ViewModifier {
     @Binding var autoRotationEnabled: Bool
     @State private var autoRotationTimer: Timer? = nil
     
-    init(totalAngle: Binding<Double>, onAngleChanged: @escaping (Double) -> Void, animation: Animation? = nil, autoRotationSpeed: Binding<Double>, autoRotationEnabled: Binding<Bool>) {
+    init(
+        totalAngle: Binding<Double>,
+        onAngleChanged: @escaping (Double) -> Void,
+        animation: Animation? = nil,
+        autoRotationSpeed: Binding<Double>,
+        autoRotationEnabled: Binding<Bool>)
+    {
         self._totalAngle = totalAngle
         rotationAngle = Angle(degrees: totalAngle.wrappedValue)
         self.onAngleChanged = onAngleChanged

@@ -95,6 +95,7 @@
 				4D7DE21E29FEF64400FD9162 /* KnobRotation.swift */,
 				4D75741229FFC54200CB23E1 /* ValueAutoRotation.swift */,
 				4D59C96429F9840F001C6B98 /* KnobInertia.swift */,
+				4DAB142029FB026100315481 /* ValueAutoRotationInertia.swift */,
 			);
 			path = "Variable 1.0";
 			sourceTree = "<group>";
@@ -104,7 +105,6 @@
 			children = (
 				4DA09C752A01513F00EC0AF8 /* Variable 2.0 */,
 				4D27980629FA6256008A5076 /* Variable 1.0 */,
-				4DA09C762A01515700EC0AF8 /* Variable 0.0 */,
 			);
 			path = Versions;
 			sourceTree = "<group>";
@@ -116,14 +116,6 @@
 				4D281B5B29F59AF40064AF7A /* FidgetSpinnerModifier.swift */,
 			);
 			path = "Variable 2.0";
-			sourceTree = "<group>";
-		};
-		4DA09C762A01515700EC0AF8 /* Variable 0.0 */ = {
-			isa = PBXGroup;
-			children = (
-				4DAB142029FB026100315481 /* ValueAutoRotationInertia.swift */,
-			);
-			path = "Variable 0.0";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
