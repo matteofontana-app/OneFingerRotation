@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4D1A065B29F43E350077A31A /* One_Finger_Rotation_Without_ValueApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D1A065A29F43E350077A31A /* One_Finger_Rotation_Without_ValueApp.swift */; };
+		4D1A065B29F43E350077A31A /* One_Finger_Rotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D1A065A29F43E350077A31A /* One_Finger_Rotation.swift */; };
 		4D1A065D29F43E350077A31A /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D1A065C29F43E350077A31A /* ContentView.swift */; };
 		4D1A065F29F43E360077A31A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4D1A065E29F43E360077A31A /* Assets.xcassets */; };
 		4D1A066229F43E360077A31A /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4D1A066129F43E360077A31A /* Preview Assets.xcassets */; };
@@ -23,8 +23,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		4D1A065729F43E350077A31A /* One-Finger-Rotation-Without-Value.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "One-Finger-Rotation-Without-Value.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		4D1A065A29F43E350077A31A /* One_Finger_Rotation_Without_ValueApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = One_Finger_Rotation_Without_ValueApp.swift; sourceTree = "<group>"; };
+		4D1A065729F43E350077A31A /* One-Finger-Rotation.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "One-Finger-Rotation.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		4D1A065A29F43E350077A31A /* One_Finger_Rotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = One_Finger_Rotation.swift; sourceTree = "<group>"; };
 		4D1A065C29F43E350077A31A /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		4D1A065E29F43E360077A31A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4D1A066129F43E360077A31A /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -53,7 +53,7 @@
 		4D1A064E29F43E350077A31A = {
 			isa = PBXGroup;
 			children = (
-				4D1A065929F43E350077A31A /* One-Finger-Rotation-Without-Value */,
+				4D1A065929F43E350077A31A /* One-Finger-Rotation */,
 				4D1A065829F43E350077A31A /* Products */,
 			);
 			sourceTree = "<group>";
@@ -61,21 +61,21 @@
 		4D1A065829F43E350077A31A /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				4D1A065729F43E350077A31A /* One-Finger-Rotation-Without-Value.app */,
+				4D1A065729F43E350077A31A /* One-Finger-Rotation.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		4D1A065929F43E350077A31A /* One-Finger-Rotation-Without-Value */ = {
+		4D1A065929F43E350077A31A /* One-Finger-Rotation */ = {
 			isa = PBXGroup;
 			children = (
-				4D1A065A29F43E350077A31A /* One_Finger_Rotation_Without_ValueApp.swift */,
+				4D1A065A29F43E350077A31A /* One_Finger_Rotation.swift */,
 				4D1A065C29F43E350077A31A /* ContentView.swift */,
 				4D281B5A29F58F790064AF7A /* Versions */,
 				4D1A065E29F43E360077A31A /* Assets.xcassets */,
 				4D1A066029F43E360077A31A /* Preview Content */,
 			);
-			path = "One-Finger-Rotation-Without-Value";
+			path = "One-Finger-Rotation";
 			sourceTree = "<group>";
 		};
 		4D1A066029F43E360077A31A /* Preview Content */ = {
@@ -121,9 +121,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		4D1A065629F43E350077A31A /* One-Finger-Rotation-Without-Value */ = {
+		4D1A065629F43E350077A31A /* One-Finger-Rotation */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 4D1A066529F43E360077A31A /* Build configuration list for PBXNativeTarget "One-Finger-Rotation-Without-Value" */;
+			buildConfigurationList = 4D1A066529F43E360077A31A /* Build configuration list for PBXNativeTarget "One-Finger-Rotation" */;
 			buildPhases = (
 				4D1A065329F43E350077A31A /* Sources */,
 				4D1A065429F43E350077A31A /* Frameworks */,
@@ -133,9 +133,9 @@
 			);
 			dependencies = (
 			);
-			name = "One-Finger-Rotation-Without-Value";
+			name = "One-Finger-Rotation";
 			productName = "One-Finger-Rotation-Without-Value";
-			productReference = 4D1A065729F43E350077A31A /* One-Finger-Rotation-Without-Value.app */;
+			productReference = 4D1A065729F43E350077A31A /* One-Finger-Rotation.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -153,7 +153,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 4D1A065229F43E350077A31A /* Build configuration list for PBXProject "One-Finger-Rotation-Without-Value" */;
+			buildConfigurationList = 4D1A065229F43E350077A31A /* Build configuration list for PBXProject "One-Finger-Rotation" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -166,7 +166,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				4D1A065629F43E350077A31A /* One-Finger-Rotation-Without-Value */,
+				4D1A065629F43E350077A31A /* One-Finger-Rotation */,
 			);
 		};
 /* End PBXProject section */
@@ -198,7 +198,7 @@
 				4D281B5729F58DE00064AF7A /* ValueRotation.swift in Sources */,
 				4D281B5529F58BE30064AF7A /* SimpleRotation.swift in Sources */,
 				4DAB142129FB026100315481 /* ValueAutoRotationInertia.swift in Sources */,
-				4D1A065B29F43E350077A31A /* One_Finger_Rotation_Without_ValueApp.swift in Sources */,
+				4D1A065B29F43E350077A31A /* One_Finger_Rotation.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -326,7 +326,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"One-Finger-Rotation-Without-Value/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"One-Finger-Rotation/Preview Content\"";
 				DEVELOPMENT_TEAM = STC5YZQ5V6;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -355,7 +355,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"One-Finger-Rotation-Without-Value/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"One-Finger-Rotation/Preview Content\"";
 				DEVELOPMENT_TEAM = STC5YZQ5V6;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -380,7 +380,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		4D1A065229F43E350077A31A /* Build configuration list for PBXProject "One-Finger-Rotation-Without-Value" */ = {
+		4D1A065229F43E350077A31A /* Build configuration list for PBXProject "One-Finger-Rotation" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				4D1A066329F43E360077A31A /* Debug */,
@@ -389,7 +389,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		4D1A066529F43E360077A31A /* Build configuration list for PBXNativeTarget "One-Finger-Rotation-Without-Value" */ = {
+		4D1A066529F43E360077A31A /* Build configuration list for PBXNativeTarget "One-Finger-Rotation" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				4D1A066629F43E360077A31A /* Debug */,
