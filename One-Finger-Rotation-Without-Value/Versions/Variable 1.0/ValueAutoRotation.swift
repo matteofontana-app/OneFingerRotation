@@ -144,6 +144,14 @@ struct ValueAutoRotation: ViewModifier {
     
 }
 
+struct FrameSizeKeyValueAutoRotation: PreferenceKey {
+    static var defaultValue: CGSize = .zero
+    
+    static func reduce(value: inout CGSize, nextValue: () -> CGSize) {
+        value = nextValue()
+    }
+}
+
 extension View {
     func valueAutoRotation(
         totalAngle: Binding<Double>,
@@ -163,13 +171,4 @@ extension View {
         )
     }
 }
-
-struct FrameSizeKeyValueAutoRotation: PreferenceKey {
-    static var defaultValue: CGSize = .zero
-    
-    static func reduce(value: inout CGSize, nextValue: () -> CGSize) {
-        value = nextValue()
-    }
-}
- 
 

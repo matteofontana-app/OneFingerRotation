@@ -13,7 +13,7 @@
 		4D1A066229F43E360077A31A /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4D1A066129F43E360077A31A /* Preview Assets.xcassets */; };
 		4D281B5529F58BE30064AF7A /* SimpleRotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D281B5429F58BE30064AF7A /* SimpleRotation.swift */; };
 		4D281B5729F58DE00064AF7A /* ValueRotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D281B5629F58DE00064AF7A /* ValueRotation.swift */; };
-		4D281B5C29F59AF40064AF7A /* FidgetSpinnerModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D281B5B29F59AF40064AF7A /* FidgetSpinnerModifier.swift */; };
+		4D281B5C29F59AF40064AF7A /* simpleRotationInertia.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D281B5B29F59AF40064AF7A /* simpleRotationInertia.swift */; };
 		4D59C96529F9840F001C6B98 /* KnobInertia.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D59C96429F9840F001C6B98 /* KnobInertia.swift */; };
 		4D59C96729F9919D001C6B98 /* ValueRotationInertia.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D59C96629F9919D001C6B98 /* ValueRotationInertia.swift */; };
 		4D75741329FFC54200CB23E1 /* ValueAutoRotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D75741229FFC54200CB23E1 /* ValueAutoRotation.swift */; };
@@ -30,7 +30,7 @@
 		4D1A066129F43E360077A31A /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		4D281B5429F58BE30064AF7A /* SimpleRotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleRotation.swift; sourceTree = "<group>"; };
 		4D281B5629F58DE00064AF7A /* ValueRotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValueRotation.swift; sourceTree = "<group>"; };
-		4D281B5B29F59AF40064AF7A /* FidgetSpinnerModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FidgetSpinnerModifier.swift; sourceTree = "<group>"; };
+		4D281B5B29F59AF40064AF7A /* simpleRotationInertia.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = simpleRotationInertia.swift; sourceTree = "<group>"; };
 		4D59C96429F9840F001C6B98 /* KnobInertia.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KnobInertia.swift; sourceTree = "<group>"; };
 		4D59C96629F9919D001C6B98 /* ValueRotationInertia.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValueRotationInertia.swift; sourceTree = "<group>"; };
 		4D75741229FFC54200CB23E1 /* ValueAutoRotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValueAutoRotation.swift; sourceTree = "<group>"; };
@@ -113,7 +113,7 @@
 			isa = PBXGroup;
 			children = (
 				4D281B5429F58BE30064AF7A /* SimpleRotation.swift */,
-				4D281B5B29F59AF40064AF7A /* FidgetSpinnerModifier.swift */,
+				4D281B5B29F59AF40064AF7A /* simpleRotationInertia.swift */,
 			);
 			path = "Variable 2.0";
 			sourceTree = "<group>";
@@ -189,7 +189,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4D75741329FFC54200CB23E1 /* ValueAutoRotation.swift in Sources */,
-				4D281B5C29F59AF40064AF7A /* FidgetSpinnerModifier.swift in Sources */,
+				4D281B5C29F59AF40064AF7A /* simpleRotationInertia.swift in Sources */,
 				4D1A065D29F43E350077A31A /* ContentView.swift in Sources */,
 				4D7DE22329FF107700FD9162 /* AutoRotation.swift in Sources */,
 				4D59C96729F9919D001C6B98 /* ValueRotationInertia.swift in Sources */,

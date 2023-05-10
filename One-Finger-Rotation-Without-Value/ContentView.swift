@@ -15,7 +15,7 @@ struct ContentView: View {
     @State private var totalAngle4: Double = 0
     @State private var knobValue: Double = 0.5
     @State private var knobValue2: Double = 0.5
-    @State var sliderValue: CGFloat = 0.7
+    @State var sliderValue: CGFloat = 0.007
     @State var valueChange: Bool = false
     @State var angleSnap: Double = 60
 
@@ -60,6 +60,12 @@ struct ContentView: View {
 //            .fidgetSpinnerValueEffect(totalAngle: $totalAngle3, friction: $sliderValue, onAngleChanged: { newAngle in
 //                totalAngle3 = newAngle
 //            }, velocityMultiplier: .constant(0.1), animation: .spring())
+//            .fidgetSpinnerValueEffect(
+//                totalAngle: $totalAngle3,
+//                onAngleChanged: { newAngle in
+//                totalAngle3 = newAngle
+//            }
+//            )
 //            Text("Total Angle: \(totalAngle3, specifier: "%.2f")")
 //            Button(action: {
 //                totalAngle3 = 40
@@ -72,39 +78,39 @@ struct ContentView: View {
             
             
             
-            ///Value Rotation Inertia
-            ZStack{
-                Image("FidgetSpinner")
-                    .resizable()
-                    .frame(width: 300, height: 300)
-                VStack{
-                    Rectangle()
-                        .foregroundColor(.red)
-                        .frame(width: 20, height: 20)
-                    Spacer()
-                }
-            }
-            .frame(width: 300, height: 300)
-             //Your spinner view using a fixed value for friction
-            .valueAutoRotationInertiaEffect(
-                totalAngle: $totalAngle3,
-                friction: .constant(0.9),
-                onAngleChanged: { newAngle in
-                totalAngle3 = newAngle
-            }, velocityMultiplier: .constant(0.1),
-                animation: .spring(),
-                stoppingAnimation: $valueChange,
-                autoRotationSpeed: .constant(90),
-                autoRotationEnabled: .constant(true)
-            )
-            Text("Total Angle: \(totalAngle3/360, specifier: "%.2f")")
-            Button(action: {
-                totalAngle3 = 40
-                valueChange = true
-            }, label: {
-                Text("Test")
-            })
-            
+            ///Auto Value Rotation Inertia
+//            ZStack{
+//                Image("FidgetSpinner")
+//                    .resizable()
+//                    .frame(width: 300, height: 300)
+//                VStack{
+//                    Rectangle()
+//                        .foregroundColor(.red)
+//                        .frame(width: 20, height: 20)
+//                    Spacer()
+//                }
+//            }
+//            .frame(width: 300, height: 300)
+//             //Your spinner view using a fixed value for friction
+//            .valueAutoRotationInertia(
+//                totalAngle: $totalAngle3,
+//                friction: .constant(0.1),
+//                onAngleChanged: { newAngle in
+//                totalAngle3 = newAngle
+//            }, velocityMultiplier: .constant(0.1),
+//                animation: .spring(),
+//                stoppingAnimation: $valueChange,
+//                autoRotationSpeed: .constant(90),
+//                autoRotationEnabled: .constant(true)
+//            )
+//            Text("Total Angle: \(totalAngle3/360, specifier: "%.2f")")
+//            Button(action: {
+//                totalAngle3 = 40
+//                valueChange = true
+//            }, label: {
+//                Text("Test")
+//            })
+
             
             /// Value Rotation
 //            ZStack{
@@ -176,7 +182,7 @@ struct ContentView: View {
 //            }, label: {
 //                Text("Test")
 //            })
-            
+//
             
             
             
@@ -192,9 +198,14 @@ struct ContentView: View {
 //            }
 //                .frame(width: 200, height: 200)
 //                .foregroundColor(.red)
-//                .knobRotation(knobValue: $knobValue, minAngle: -180, maxAngle: 180, onKnobValueChanged: { newValue in
+//                .knobRotation(
+//                    knobValue: $knobValue,
+//                    minAngle: -180,
+//                    maxAngle: 180,
+//                    onKnobValueChanged: { newValue in
 //                    knobValue = newValue
-//                }, animation: .spring())
+//                    },
+//                    animation: .spring())
 //            Text("Total Angle: \(knobValue, specifier: "%.2f")")
 //            Button(action: {
 //                knobValue = 0.6
@@ -223,7 +234,7 @@ struct ContentView: View {
 //                    angleSnap: .constant(360/5),
 //                    angleSnapShowFactor: .constant(0.1)
 //                )
-            /// Stock friction 0.995; velocityMultiplier: 0.1; decelerationFactor: 0.4; rotationAngle .degrees(0), no anglesnap, angleSnapShowFactor: 0.1
+/// Stock friction 0.995; velocityMultiplier: 0.1; decelerationFactor: 0.4; rotationAngle .degrees(0), no anglesnap, angleSnapShowFactor: 0.1
 //            Spacer()
 //            Image("FidgetSpinner")
 //                .resizable()
@@ -240,9 +251,9 @@ struct ContentView: View {
 //                        totalAngle: $totalAngle4,
 //                        onAngleChanged: { newAngle in
 //                            totalAngle4 = newAngle
-//                        }, animation: .spring(),
-//                        autoRotationSpeed: $autoRotationSpeed,
-//                        autoRotationEnabled: $autoRotationEnabled
+//                        }//, animation: .spring(),
+//                        //autoRotationSpeed: $autoRotationSpeed,
+//                        //autoRotationEnabled: $autoRotationEnabled
 //                    )
 //            Spacer()
 //            Button(action: {
@@ -306,10 +317,10 @@ struct ContentView: View {
 //                )
                 /// Stock rotationAngle .degrees(0), angleSnap not present
 //            Spacer()
-//            Image("FidgetSpinner")
-//                .resizable()
-//                .frame(width: 200, height: 200)
-//                .simpleRotation()
+            Image("FidgetSpinner")
+                .resizable()
+                .frame(width: 200, height: 200)
+                .simpleRotation()
             
         }
     }

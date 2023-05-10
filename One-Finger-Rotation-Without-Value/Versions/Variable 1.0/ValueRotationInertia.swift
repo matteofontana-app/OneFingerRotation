@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct FidgetSpinnerValueEffect: ViewModifier {
+struct ValueRotationInertia: ViewModifier {
     @State private var rotationAngle: Angle = .degrees(0)
     @GestureState private var gestureRotation: Angle = .zero
     @State private var lastVelocity: CGFloat = 0
@@ -25,7 +25,7 @@ struct FidgetSpinnerValueEffect: ViewModifier {
     @State private var previousAngle: Double = 0
     @State private var rotationDirection: Double = 1
     /// Initialization of three declarable and optional values.
-    init(totalAngle: Binding<Double>, friction: Binding<CGFloat> = .constant(0.995), velocityMultiplier: Binding<CGFloat> = .constant(0.1), rotationAngle: Angle = .degrees(0.0), animation: Animation? = nil, onAngleChanged: @escaping (Double) -> Void, stoppingAnimation: Binding<Bool> = .constant(true)) {
+    init(totalAngle: Binding<Double>, friction: Binding<CGFloat> = .constant(0.005), velocityMultiplier: Binding<CGFloat> = .constant(0.1), rotationAngle: Angle = .degrees(0.0), animation: Animation? = nil, onAngleChanged: @escaping (Double) -> Void, stoppingAnimation: Binding<Bool> = .constant(false)) {
         self._totalAngle = totalAngle
         self._friction = friction
         self._velocityMultiplier = velocityMultiplier
@@ -44,10 +44,10 @@ struct FidgetSpinnerValueEffect: ViewModifier {
             /// The ".background" modifier and the ".onPreferenceChange" update the automatic frame calculation of the content.
                 .background(
                     GeometryReader { geometry in
-                        Color.clear.preference(key: FrameSizeKeyFidgetSpinnerValue.self, value: geometry.size)
+                        Color.clear.preference(key: FrameSizeKeyValueRotationInertia.self, value: geometry.size)
                     }
                 )
-                .onPreferenceChange(FrameSizeKeyFidgetSpinnerValue.self) { newSize in
+                .onPreferenceChange(FrameSizeKeyValueRotationInertia.self) { newSize in
                     viewSize = newSize
                 }
             /// The ".position" modifier fix the center of the content.
@@ -133,7 +133,7 @@ struct FidgetSpinnerValueEffect: ViewModifier {
                                     let angle = Angle(degrees: Double(lastVelocity) * rotationDirection)
                                     rotationAngle += angle
                                     onAngleChanged(rotationAngle.degrees)
-                                    lastVelocity *= friction
+                                    lastVelocity *= (1 - friction)
                                     if lastVelocity < 0.1 {
                                         timer.invalidate()
                                         isSpinning = false
@@ -177,7 +177,7 @@ struct FidgetSpinnerValueEffect: ViewModifier {
 }
 
 /// This PreferenceKey is necessary for the calculation of the frame width and height of the content.
-struct FrameSizeKeyFidgetSpinnerValue: PreferenceKey {
+struct FrameSizeKeyValueRotationInertia: PreferenceKey {
     static var defaultValue: CGSize = .zero
     
     static func reduce(value: inout CGSize, nextValue: () -> CGSize) {
@@ -186,14 +186,21 @@ struct FrameSizeKeyFidgetSpinnerValue: PreferenceKey {
 }
 
 extension View {
-    func fidgetSpinnerValueEffect(totalAngle: Binding<Double>, friction: Binding<CGFloat>? = nil, onAngleChanged: @escaping (Double) -> Void, velocityMultiplier: Binding<CGFloat>? = nil, animation: Animation? = nil, stoppingAnimation: Binding<Bool>? = nil) -> some View {
-        let effect = FidgetSpinnerValueEffect(
+    func valueRotationInertia(
+        totalAngle: Binding<Double>,
+        friction: Binding<CGFloat>? = nil,
+        onAngleChanged: @escaping (Double) -> Void,
+        velocityMultiplier: Binding<CGFloat>? = nil,
+        animation: Animation? = nil,
+        stoppingAnimation: Binding<Bool>? = nil) -> some View
+    {
+        let effect = ValueRotationInertia(
             totalAngle: totalAngle,
-            friction: friction ?? .constant(0.995),
+            friction: friction ?? .constant(0.005),
             velocityMultiplier: velocityMultiplier ?? .constant(0.1),
             animation: animation,
             onAngleChanged: onAngleChanged,
-            stoppingAnimation: stoppingAnimation ?? .constant(true)
+            stoppingAnimation: stoppingAnimation ?? .constant(false)
         )
         return self.modifier(effect)
     }

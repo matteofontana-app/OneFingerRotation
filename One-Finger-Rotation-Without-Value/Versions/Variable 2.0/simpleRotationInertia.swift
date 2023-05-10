@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct FidgetSpinnerEffect: ViewModifier {
+struct SimpleRotationInertia: ViewModifier {
      
     /// Variable for the angle of rotation of the Fidget Spinner.
     @State private var rotationAngle: Angle = .degrees(0.0)
@@ -46,8 +46,8 @@ struct FidgetSpinnerEffect: ViewModifier {
     
     
     /// Initialization of three declarable and optional values.
-    init(friction: Binding<CGFloat> = .constant(0.995), velocityMultiplier: Binding<CGFloat> = .constant(0.1), decelerationFactor: Binding<Double> = .constant(0.5), rotationAngle: Angle = .degrees(0.0), angleSnap: Binding<Double?> = .constant(nil), angleSnapShowFactor: Binding<Double> = .constant(0.1)) {
-            self._friction = friction
+    init(friction: Binding<CGFloat> = .constant(0.005), velocityMultiplier: Binding<CGFloat> = .constant(0.1), decelerationFactor: Binding<Double> = .constant(0.5), rotationAngle: Angle = .degrees(0.0), angleSnap: Binding<Double?> = .constant(nil), angleSnapShowFactor: Binding<Double> = .constant(0.1)) {
+        self._friction = friction
             self._velocityMultiplier = velocityMultiplier
             self._decelerationFactor = decelerationFactor
             _rotationAngle = State(initialValue: rotationAngle)
@@ -64,10 +64,10 @@ struct FidgetSpinnerEffect: ViewModifier {
             /// The ".background" modifier and the ".onPreferenceChange" update the automatic frame calculation of the content.
                 .background(
                     GeometryReader { geometry in
-                        Color.clear.preference(key: FrameSizeKeyFidgetSpinner.self, value: geometry.size)
+                        Color.clear.preference(key: FrameSizeKeySimpleRotationInertia.self, value: geometry.size)
                     }
                 )
-                .onPreferenceChange(FrameSizeKeyFidgetSpinner.self) { newSize in
+                .onPreferenceChange(FrameSizeKeySimpleRotationInertia.self) { newSize in
                     viewSize = newSize
                 }
             /// The ".position" modifier fix the center of the content.
@@ -99,7 +99,7 @@ struct FidgetSpinnerEffect: ViewModifier {
                                     let rotationDirection = angleDifference >= .zero ? 1.0 : -1.0
                                     let angle = Angle(degrees: Double(lastVelocity) * rotationDirection)
                                     rotationAngle += angle
-                                    lastVelocity *= friction
+                                    lastVelocity *= (1 - friction)
                                     
                                     if let snap = angleSnap {
                                         rotationAngle = snapToAngle(rotationAngle, snap: snap, velocity: lastVelocity, animation: { interpolationFactor in
@@ -186,7 +186,7 @@ struct FidgetSpinnerEffect: ViewModifier {
 }
 
 /// This PreferenceKey is necessary for the calculation of the frame width and height of the content.
-struct FrameSizeKeyFidgetSpinner: PreferenceKey {
+struct FrameSizeKeySimpleRotationInertia: PreferenceKey {
     static var defaultValue: CGSize = .zero
     
     static func reduce(value: inout CGSize, nextValue: () -> CGSize) {
@@ -195,9 +195,18 @@ struct FrameSizeKeyFidgetSpinner: PreferenceKey {
 }
 
 extension View {
-    func fidgetSpinnerEffect(friction: Binding<CGFloat>? = nil, velocityMultiplier: Binding<CGFloat>? = nil, decelerationFactor: Binding<Double>? = nil, rotationAngle: Angle? = nil, bindingFriction: Binding<CGFloat>? = nil, bindingVelocityMultiplier: Binding<CGFloat>? = nil, angleSnap: Binding<Double?> = .constant(nil), angleSnapShowFactor: Binding<Double>? = nil) -> some View {
-        let effect = FidgetSpinnerEffect(
-            friction: friction ?? .constant(0.995),
+    func simpleRotationInertia(
+        friction: Binding<CGFloat>? = nil,
+        velocityMultiplier: Binding<CGFloat>? = nil,
+        decelerationFactor: Binding<Double>? = nil,
+        rotationAngle: Angle? = nil,
+        bindingFriction: Binding<CGFloat>? = nil,
+        bindingVelocityMultiplier: Binding<CGFloat>? = nil,
+        angleSnap: Binding<Double?> = .constant(nil),
+        angleSnapShowFactor: Binding<Double>? = nil) -> some View
+    {
+        let effect = SimpleRotationInertia(
+            friction: friction ?? .constant(0.005),
             velocityMultiplier: velocityMultiplier ?? .constant(0.1),
             decelerationFactor: decelerationFactor ?? .constant(0.4),
             rotationAngle: rotationAngle ?? .degrees(0.0),

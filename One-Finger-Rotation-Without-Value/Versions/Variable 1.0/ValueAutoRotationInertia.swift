@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ValueAutoRotationInertiaEffect: ViewModifier {
+struct ValueAutoRotationInertia: ViewModifier {
     @State private var rotationAngle: Angle = .degrees(0)
     @GestureState private var gestureRotation: Angle = .zero
     @State private var lastVelocity: CGFloat = 0
@@ -30,12 +30,12 @@ struct ValueAutoRotationInertiaEffect: ViewModifier {
     /// Initialization of three declarable and optional values.
     init(
         totalAngle: Binding<Double>,
-        friction: Binding<CGFloat> = .constant(0.9),
+        friction: Binding<CGFloat> = .constant(0.1),
         velocityMultiplier: Binding<CGFloat> = .constant(0.1),
         rotationAngle: Angle = .degrees(0.0),
         animation: Animation? = nil,
         onAngleChanged: @escaping (Double) -> Void,
-        stoppingAnimation: Binding<Bool> = .constant(true),
+        stoppingAnimation: Binding<Bool> = .constant(false),
         autoRotationSpeed: Binding<Double>,
         autoRotationEnabled: Binding<Bool>
     ){
@@ -75,10 +75,10 @@ struct ValueAutoRotationInertiaEffect: ViewModifier {
             /// The ".background" modifier and the ".onPreferenceChange" update the automatic frame calculation of the content.
                 .background(
                     GeometryReader { geometry in
-                        Color.clear.preference(key: FrameSizeKeyValueAutoRotationInertiaEffect.self, value: geometry.size)
+                        Color.clear.preference(key: FrameSizeKeyValueAutoRotationInertia.self, value: geometry.size)
                     }
                 )
-                .onPreferenceChange(FrameSizeKeyValueAutoRotationInertiaEffect.self) { newSize in
+                .onPreferenceChange(FrameSizeKeyValueAutoRotationInertia.self) { newSize in
                     viewSize = newSize
                 }
             /// The ".position" modifier fix the center of the content.
@@ -96,7 +96,7 @@ struct ValueAutoRotationInertiaEffect: ViewModifier {
                                     timer?.invalidate()
                                     isSpinning = false
                                 }
-                                stoppingAnimation = false
+                                //stoppingAnimation = false
                             }
                         } else {
                             rotationAngle = Angle(degrees: newValue)
@@ -104,7 +104,7 @@ struct ValueAutoRotationInertiaEffect: ViewModifier {
                                 timer?.invalidate()
                                 isSpinning = false
                             }
-                            stoppingAnimation = false
+                            //stoppingAnimation = false
                         }
                     }
                     if !isDragged && !isSpinning {
@@ -168,7 +168,7 @@ struct ValueAutoRotationInertiaEffect: ViewModifier {
                                     let angle = Angle(degrees: Double(lastVelocity) * rotationDirection)
                                     rotationAngle += angle
                                     onAngleChanged(rotationAngle.degrees)
-                                    lastVelocity *= friction
+                                    lastVelocity *= (1 - friction)
                                     if lastVelocity < 0.1 {
                                         timer.invalidate()
                                         isSpinning = false
@@ -223,7 +223,7 @@ struct ValueAutoRotationInertiaEffect: ViewModifier {
 }
 
 /// This PreferenceKey is necessary for the calculation of the frame width and height of the content.
-struct FrameSizeKeyValueAutoRotationInertiaEffect: PreferenceKey {
+struct FrameSizeKeyValueAutoRotationInertia: PreferenceKey {
     static var defaultValue: CGSize = .zero
     
     static func reduce(value: inout CGSize, nextValue: () -> CGSize) {
@@ -232,7 +232,7 @@ struct FrameSizeKeyValueAutoRotationInertiaEffect: PreferenceKey {
 }
 
 extension View {
-    func valueAutoRotationInertiaEffect(
+    func valueAutoRotationInertia(
         totalAngle: Binding<Double>,
         friction: Binding<CGFloat>? = nil,
         onAngleChanged: @escaping (Double) -> Void,
@@ -242,14 +242,14 @@ extension View {
         autoRotationSpeed: Binding<Double>? = nil,
         autoRotationEnabled: Binding<Bool>? = nil
     ) -> some View {
-        let effect = ValueAutoRotationInertiaEffect(
+        let effect = ValueAutoRotationInertia(
             totalAngle: totalAngle,
-            friction: friction ?? .constant(0.9),
+            friction: friction ?? .constant(0.1),
             velocityMultiplier: velocityMultiplier ?? .constant(0.1),
             animation: animation,
             onAngleChanged: onAngleChanged,
-            stoppingAnimation: stoppingAnimation ?? .constant(true),
-            autoRotationSpeed: autoRotationSpeed ?? .constant(20.0),
+            stoppingAnimation: stoppingAnimation ?? .constant(false),
+            autoRotationSpeed: autoRotationSpeed ?? .constant(40.0),
             autoRotationEnabled: autoRotationEnabled ?? .constant(true)
         )
         return self.modifier(effect)

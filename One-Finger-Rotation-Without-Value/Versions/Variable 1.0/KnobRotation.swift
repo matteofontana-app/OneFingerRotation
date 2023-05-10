@@ -97,8 +97,22 @@ struct KnobRotation: ViewModifier {
     
 }
 
+struct FrameSizeKeyKnobRotation: PreferenceKey {
+    static var defaultValue: CGSize = .zero
+    
+    static func reduce(value: inout CGSize, nextValue: () -> CGSize) {
+        value = nextValue()
+    }
+}
+
 extension View {
-    func knobRotation(knobValue: Binding<Double>, minAngle: Double? = nil, maxAngle: Double? = nil, onKnobValueChanged: @escaping (Double) -> Void, animation: Animation? = nil) -> some View {
+    func knobRotation(
+        knobValue: Binding<Double>,
+        minAngle: Double? = nil,
+        maxAngle: Double? = nil,
+        onKnobValueChanged: @escaping (Double) -> Void,
+        animation: Animation? = nil) -> some View
+    {
         self.modifier(
             KnobRotation(
                 knobValue: knobValue,
@@ -106,14 +120,6 @@ extension View {
                 maxAngle: maxAngle ?? 90,
                 onKnobValueChanged: onKnobValueChanged,
                 animation: animation))
-    }
-}
-
-struct FrameSizeKeyKnobRotation: PreferenceKey {
-    static var defaultValue: CGSize = .zero
-    
-    static func reduce(value: inout CGSize, nextValue: () -> CGSize) {
-        value = nextValue()
     }
 }
  

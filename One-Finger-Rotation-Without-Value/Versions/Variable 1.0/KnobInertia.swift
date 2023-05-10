@@ -28,7 +28,7 @@ struct KnobInertia: ViewModifier {
     @State var minAngle: Double
     @State var maxAngle: Double
     /// Initialization of three declarable and optional values.
-    init(knobValue: Binding<Double>, minAngle: Double, maxAngle: Double, friction: Binding<CGFloat> = .constant(0.995), velocityMultiplier: Binding<CGFloat> = .constant(0.1), rotationAngle: Angle = .degrees(0.0), animation: Animation? = nil, onKnobValueChanged: @escaping (Double) -> Void, stoppingAnimation: Binding<Bool> = .constant(true)) {
+    init(knobValue: Binding<Double>, minAngle: Double, maxAngle: Double, friction: Binding<CGFloat> = .constant(0.1), velocityMultiplier: Binding<CGFloat> = .constant(0.1), rotationAngle: Angle = .degrees(0.0), animation: Animation? = nil, onKnobValueChanged: @escaping (Double) -> Void, stoppingAnimation: Binding<Bool> = .constant(true)) {
         self._knobValue = knobValue
         self.minAngle = minAngle
         self.maxAngle = maxAngle
@@ -154,7 +154,7 @@ struct KnobInertia: ViewModifier {
                                         rotationAngle = Angle(degrees: clampedAngle + deceleration)
                                         knobValue = (rotationAngle.degrees - minAngle) / (maxAngle - minAngle) // Update knobValue here
                                         onKnobValueChanged(knobValue)
-                                        lastVelocity *= friction
+                                        lastVelocity *= (1 - friction)
                                         if lastVelocity < 0.1 {
                                             timer.invalidate()
                                             isSpinning = false
@@ -163,7 +163,7 @@ struct KnobInertia: ViewModifier {
                                         rotationAngle = newRotationAngle
                                         knobValue = (rotationAngle.degrees - minAngle) / (maxAngle - minAngle) // Update knobValue here
                                         onKnobValueChanged(knobValue)
-                                        lastVelocity *= friction
+                                        lastVelocity *= (1 - friction)
                                         if lastVelocity < 0.1 || (newRotationAngle.degrees < minAngle || newRotationAngle.degrees > maxAngle) {
                                             timer.invalidate()
                                             isSpinning = false
@@ -216,12 +216,21 @@ struct FrameSizeKeyKnobInertia: PreferenceKey {
 }
 
 extension View {
-    func knobInertia(knobValue: Binding<Double>, minAngle: Double? = nil, maxAngle: Double? = nil, friction: Binding<CGFloat>? = nil, onKnobValueChanged: @escaping (Double) -> Void, velocityMultiplier: Binding<CGFloat>? = nil, animation: Animation? = nil, stoppingAnimation: Binding<Bool>? = nil) -> some View {
+    func knobInertia(
+        knobValue: Binding<Double>,
+        minAngle: Double? = nil,
+        maxAngle: Double? = nil,
+        friction: Binding<CGFloat>? = nil,
+        onKnobValueChanged: @escaping (Double) -> Void,
+        velocityMultiplier: Binding<CGFloat>? = nil,
+        animation: Animation? = nil,
+        stoppingAnimation: Binding<Bool>? = nil) -> some View
+    {
         let effect = KnobInertia(
             knobValue: knobValue,
             minAngle: minAngle ?? -90,
             maxAngle: maxAngle ?? 90,
-            friction: friction ?? .constant(0.6),
+            friction: friction ?? .constant(0.1),
             velocityMultiplier: velocityMultiplier ?? .constant(0.1),
             animation: animation,
             onKnobValueChanged: onKnobValueChanged,

@@ -80,6 +80,14 @@ struct ValueRotation: ViewModifier {
         return angle
     }
 }
+
+struct FrameSizeKeyValueRotation: PreferenceKey {
+    static var defaultValue: CGSize = .zero
+    static func reduce(value: inout CGSize, nextValue: () -> CGSize) {
+        value = nextValue()
+    }
+}
+
 extension View {
     func valueRotation(totalAngle: Binding<Double>, onAngleChanged: @escaping (Double) -> Void, animation: Animation? = nil) -> some View {
         self.modifier(
@@ -89,12 +97,6 @@ extension View {
                 animation: animation
             )
         )
-    }
-}
-struct FrameSizeKeyValueRotation: PreferenceKey {
-    static var defaultValue: CGSize = .zero
-    static func reduce(value: inout CGSize, nextValue: () -> CGSize) {
-        value = nextValue()
     }
 }
  
