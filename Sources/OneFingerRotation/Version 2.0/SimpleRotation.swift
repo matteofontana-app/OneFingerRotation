@@ -31,7 +31,7 @@ public struct SimpleRotation: ViewModifier {
             )
     }
     
-    func calculateRotation(value: DragGesture.Value) -> Angle {
+    public func calculateRotation(value: DragGesture.Value) -> Angle {
         let centerX = value.startLocation.x - 100
         let centerY = value.startLocation.y - 100
         let startVector = CGVector(dx: centerX, dy: centerY)
