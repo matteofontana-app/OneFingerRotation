@@ -14,7 +14,7 @@ public struct AutoRotation: ViewModifier {
     @Binding var autoRotationActive: Bool
     @State private var viewSize: CGSize = .zero
     
-    private var timer: Timer {
+    var timer: Timer {
         Timer.scheduledTimer(withTimeInterval: 1 / 60, repeats: true) { _ in
             if autoRotationActive && gestureRotation == .zero {
                 rotationAngle = rotationAngle + Angle(degrees: autoRotationSpeed / 60)
@@ -93,7 +93,10 @@ struct FrameSizeKeyAutoRotation: PreferenceKey {
 }
 
 public extension View {
-    func autoRotation(rotationAngle: Angle? = nil, autoRotationSpeed: Binding<Double>? = nil, autoRotationActive: Binding<Bool>? = nil) -> some View {
+    func autoRotation(
+        rotationAngle: Angle? = nil,
+        autoRotationSpeed: Binding<Double>? = nil,
+        autoRotationActive: Binding<Bool>? = nil) -> some View {
         let effect = AutoRotation(
             rotationAngle: rotationAngle ?? .degrees(0.0),
             autoRotationSpeed: autoRotationSpeed ?? .constant(20.0),

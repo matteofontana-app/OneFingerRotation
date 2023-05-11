@@ -28,7 +28,15 @@ public struct KnobInertia: ViewModifier {
     @State var minAngle: Double
     @State var maxAngle: Double
     /// Initialization of three declarable and optional values.
-    public init(knobValue: Binding<Double>, minAngle: Double, maxAngle: Double, friction: Binding<CGFloat> = .constant(0.1), velocityMultiplier: Binding<CGFloat> = .constant(0.1), rotationAngle: Angle = .degrees(0.0), animation: Animation? = nil, onKnobValueChanged: @escaping (Double) -> Void, stoppingAnimation: Binding<Bool> = .constant(true)) {
+    public init(knobValue: Binding<Double>,
+        minAngle: Double, maxAngle: Double,
+        friction: Binding<CGFloat> = .constant(0.1),
+        velocityMultiplier: Binding<CGFloat> = .constant(0.1),
+        rotationAngle: Angle = .degrees(0.0),
+        animation: Animation? = nil,
+        onKnobValueChanged: @escaping (Double) -> Void,
+        stoppingAnimation: Binding<Bool> = .constant(false)
+    ){
         self._knobValue = knobValue
         self.minAngle = minAngle
         self.maxAngle = maxAngle
@@ -194,7 +202,7 @@ public struct KnobInertia: ViewModifier {
     }
     
     /// The function calculateRotationAngle calculates the angle according to the finger movement.
-    private func calculateRotationAngle(value: DragGesture.Value, geometry: GeometryProxy) -> Angle {
+    public func calculateRotationAngle(value: DragGesture.Value, geometry: GeometryProxy) -> Angle {
         let centerX = value.startLocation.x - geometry.size.width / 2
         let centerY = value.startLocation.y - geometry.size.height / 2
         let startVector = CGVector(dx: centerX, dy: centerY)
@@ -234,7 +242,7 @@ public extension View {
             velocityMultiplier: velocityMultiplier ?? .constant(0.1),
             animation: animation,
             onKnobValueChanged: onKnobValueChanged,
-            stoppingAnimation: stoppingAnimation ?? .constant(true)
+            stoppingAnimation: stoppingAnimation ?? .constant(false)
         )
         return self.modifier(effect)
     }
