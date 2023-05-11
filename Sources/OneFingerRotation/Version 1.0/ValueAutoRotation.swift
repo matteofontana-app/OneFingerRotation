@@ -20,7 +20,7 @@ public struct ValueAutoRotation: ViewModifier {
     @Binding var autoRotationEnabled: Bool
     @State private var autoRotationTimer: Timer? = nil
     
-    init(
+    public init(
         totalAngle: Binding<Double>,
         onAngleChanged: @escaping (Double) -> Void,
         animation: Animation? = nil,
@@ -152,7 +152,7 @@ struct FrameSizeKeyValueAutoRotation: PreferenceKey {
     }
 }
 
-extension View {
+public extension View {
     func valueAutoRotation(
         totalAngle: Binding<Double>,
         onAngleChanged: @escaping (Double) -> Void,

@@ -28,7 +28,7 @@ public struct KnobInertia: ViewModifier {
     @State var minAngle: Double
     @State var maxAngle: Double
     /// Initialization of three declarable and optional values.
-    init(knobValue: Binding<Double>, minAngle: Double, maxAngle: Double, friction: Binding<CGFloat> = .constant(0.1), velocityMultiplier: Binding<CGFloat> = .constant(0.1), rotationAngle: Angle = .degrees(0.0), animation: Animation? = nil, onKnobValueChanged: @escaping (Double) -> Void, stoppingAnimation: Binding<Bool> = .constant(true)) {
+    public init(knobValue: Binding<Double>, minAngle: Double, maxAngle: Double, friction: Binding<CGFloat> = .constant(0.1), velocityMultiplier: Binding<CGFloat> = .constant(0.1), rotationAngle: Angle = .degrees(0.0), animation: Animation? = nil, onKnobValueChanged: @escaping (Double) -> Void, stoppingAnimation: Binding<Bool> = .constant(true)) {
         self._knobValue = knobValue
         self.minAngle = minAngle
         self.maxAngle = maxAngle
@@ -215,7 +215,7 @@ struct FrameSizeKeyKnobInertia: PreferenceKey {
     }
 }
 
-extension View {
+public extension View {
     func knobInertia(
         knobValue: Binding<Double>,
         minAngle: Double? = nil,

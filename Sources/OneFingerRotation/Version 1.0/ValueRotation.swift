@@ -1,4 +1,5 @@
 import SwiftUI
+
 public struct ValueRotation: ViewModifier {
     @State private var rotationAngle: Angle = .degrees(0)
     @State private var previousAngle: Double = 0
@@ -8,7 +9,7 @@ public struct ValueRotation: ViewModifier {
     @State private var isDragged: Bool = false
     @State private var fullRotations: Int = 0
     
-    init(totalAngle: Binding<Double>, onAngleChanged: @escaping (Double) -> Void, animation: Animation? = nil) {
+    public init(totalAngle: Binding<Double>, onAngleChanged: @escaping (Double) -> Void, animation: Animation? = nil) {
             self._totalAngle = totalAngle
             rotationAngle = Angle(degrees: totalAngle.wrappedValue)
             self.onAngleChanged = onAngleChanged
@@ -88,7 +89,7 @@ struct FrameSizeKeyValueRotation: PreferenceKey {
     }
 }
 
-extension View {
+public extension View {
     func valueRotation(totalAngle: Binding<Double>, onAngleChanged: @escaping (Double) -> Void, animation: Animation? = nil) -> some View {
         self.modifier(
             ValueRotation(

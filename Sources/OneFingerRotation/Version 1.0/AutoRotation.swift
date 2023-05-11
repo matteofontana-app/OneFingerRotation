@@ -22,7 +22,7 @@ public struct AutoRotation: ViewModifier {
         }
     }
     
-    init(rotationAngle: Angle = .degrees(0.0), autoRotationSpeed: Binding<Double>, autoRotationActive: Binding<Bool>) {
+    public init(rotationAngle: Angle = .degrees(0.0), autoRotationSpeed: Binding<Double>, autoRotationActive: Binding<Bool>) {
         _rotationAngle = State(initialValue: rotationAngle)
         _autoRotationSpeed = autoRotationSpeed
         _autoRotationActive = autoRotationActive
@@ -92,7 +92,7 @@ struct FrameSizeKeyAutoRotation: PreferenceKey {
     }
 }
 
-extension View {
+public extension View {
     func autoRotation(rotationAngle: Angle? = nil, autoRotationSpeed: Binding<Double>? = nil, autoRotationActive: Binding<Bool>? = nil) -> some View {
         let effect = AutoRotation(
             rotationAngle: rotationAngle ?? .degrees(0.0),

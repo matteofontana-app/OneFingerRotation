@@ -28,7 +28,7 @@ public struct ValueAutoRotationInertia: ViewModifier {
     @Binding var autoRotationEnabled: Bool
     @State private var autoRotationTimer: Timer? = nil
     /// Initialization of three declarable and optional values.
-    init(
+    public init(
         totalAngle: Binding<Double>,
         friction: Binding<CGFloat> = .constant(0.1),
         velocityMultiplier: Binding<CGFloat> = .constant(0.1),
@@ -231,7 +231,7 @@ struct FrameSizeKeyValueAutoRotationInertia: PreferenceKey {
     }
 }
 
-extension View {
+public extension View {
     func valueAutoRotationInertia(
         totalAngle: Binding<Double>,
         friction: Binding<CGFloat>? = nil,

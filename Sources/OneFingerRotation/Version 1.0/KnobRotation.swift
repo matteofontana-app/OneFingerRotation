@@ -18,7 +18,7 @@ public struct KnobRotation: ViewModifier {
     @State var minAngle: Double
     @State var maxAngle: Double
     
-    init(knobValue: Binding<Double>, minAngle: Double, maxAngle: Double, onKnobValueChanged: @escaping (Double) -> Void, animation: Animation? = nil) {
+    public init(knobValue: Binding<Double>, minAngle: Double, maxAngle: Double, onKnobValueChanged: @escaping (Double) -> Void, animation: Animation? = nil) {
             self._knobValue = knobValue
             self.minAngle = minAngle
             self.maxAngle = maxAngle
@@ -105,7 +105,7 @@ struct FrameSizeKeyKnobRotation: PreferenceKey {
     }
 }
 
-extension View {
+public extension View {
     func knobRotation(
         knobValue: Binding<Double>,
         minAngle: Double? = nil,
