@@ -52,7 +52,7 @@ public struct SimpleRotation: ViewModifier {
     }
 }
 
-extension View {
+public extension View {
     func simpleRotation(rotationAngle: Angle? = nil, angleSnap: Binding<Double?> = .constant(nil)) -> some View {
         let effect = SimpleRotation(
             rotationAngle: rotationAngle ?? .degrees(0.0),
