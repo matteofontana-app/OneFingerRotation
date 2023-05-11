@@ -8,6 +8,8 @@
 import SwiftUI
 
 public struct KnobInertia: ViewModifier {
+    
+    
     @State private var rotationAngle: Angle = .degrees(0)
     @Binding var knobValue: Double
     @GestureState private var gestureRotation: Angle = .zero
@@ -27,6 +29,8 @@ public struct KnobInertia: ViewModifier {
     @State private var rotationDirection: Double = 1
     @State var minAngle: Double
     @State var maxAngle: Double
+    
+    
     /// Initialization of three declarable and optional values.
     public init(knobValue: Binding<Double>,
         minAngle: Double, maxAngle: Double,

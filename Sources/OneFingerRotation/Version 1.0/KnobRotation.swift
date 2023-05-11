@@ -18,14 +18,20 @@ public struct KnobRotation: ViewModifier {
     @State var minAngle: Double
     @State var maxAngle: Double
     
-    public init(knobValue: Binding<Double>, minAngle: Double, maxAngle: Double, onKnobValueChanged: @escaping (Double) -> Void, animation: Animation? = nil) {
+    public init(
+        knobValue: Binding<Double>,
+        minAngle: Double,
+        maxAngle: Double,
+        onKnobValueChanged: @escaping (Double) -> Void,
+        animation: Animation? = nil
+    ) {
             self._knobValue = knobValue
             self.minAngle = minAngle
             self.maxAngle = maxAngle
             rotationAngle = Angle(degrees: minAngle+(maxAngle-minAngle)*knobValue.wrappedValue)
             self.onKnobValueChanged = onKnobValueChanged
             self.animation = animation
-        }
+    }
     
     @State private var viewSize: CGSize = .zero
     

@@ -9,12 +9,16 @@ public struct ValueRotation: ViewModifier {
     @State private var isDragged: Bool = false
     @State private var fullRotations: Int = 0
     
-    public init(totalAngle: Binding<Double>, onAngleChanged: @escaping (Double) -> Void, animation: Animation? = nil) {
+    public init(
+        totalAngle: Binding<Double>,
+        onAngleChanged: @escaping (Double) -> Void,
+        animation: Animation? = nil
+    ) {
             self._totalAngle = totalAngle
             rotationAngle = Angle(degrees: totalAngle.wrappedValue)
             self.onAngleChanged = onAngleChanged
             self.animation = animation
-        }
+    }
     
     @State private var viewSize: CGSize = .zero
     public func body(content: Content) -> some View {
@@ -90,7 +94,11 @@ struct FrameSizeKeyValueRotation: PreferenceKey {
 }
 
 public extension View {
-    func valueRotation(totalAngle: Binding<Double>, onAngleChanged: @escaping (Double) -> Void, animation: Animation? = nil) -> some View {
+    func valueRotation(
+        totalAngle: Binding<Double>,
+        onAngleChanged: @escaping (Double) -> Void,
+        animation: Animation? = nil
+    ) -> some View {
         self.modifier(
             ValueRotation(
                 totalAngle: totalAngle,

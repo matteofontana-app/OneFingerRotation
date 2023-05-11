@@ -46,7 +46,14 @@ public struct SimpleRotationInertia: ViewModifier {
     
     
     /// Initialization of three declarable and optional values.
-    public init(friction: Binding<CGFloat> = .constant(0.005), velocityMultiplier: Binding<CGFloat> = .constant(0.1), decelerationFactor: Binding<Double> = .constant(0.5), rotationAngle: Angle = .degrees(0.0), angleSnap: Binding<Double?> = .constant(nil), angleSnapShowFactor: Binding<Double> = .constant(0.1)) {
+    public init(
+        friction: Binding<CGFloat> = .constant(0.005),
+        velocityMultiplier: Binding<CGFloat> = .constant(0.1),
+        decelerationFactor: Binding<Double> = .constant(0.5),
+        rotationAngle: Angle = .degrees(0.0),
+        angleSnap: Binding<Double?> = .constant(nil),
+        angleSnapShowFactor: Binding<Double> = .constant(0.1)
+    ) {
         self._friction = friction
             self._velocityMultiplier = velocityMultiplier
             self._decelerationFactor = decelerationFactor

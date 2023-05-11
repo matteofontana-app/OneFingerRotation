@@ -7,9 +7,13 @@
 
 import SwiftUI
 
+///Struct for Auto Rotation
 public struct AutoRotation: ViewModifier {
+    ///Variable for general rotationAngle, which calculates the initial angle of the content.
     @State private var rotationAngle: Angle = .zero
+    ///Variable for the calculation of the gesture Angle
     @GestureState private var gestureRotation: Angle = .zero
+    
     @Binding var autoRotationSpeed: Double
     @Binding var autoRotationActive: Bool
     @State private var viewSize: CGSize = .zero
@@ -22,7 +26,11 @@ public struct AutoRotation: ViewModifier {
         }
     }
     
-    public init(rotationAngle: Angle = .degrees(0.0), autoRotationSpeed: Binding<Double>, autoRotationActive: Binding<Bool>) {
+    public init(
+        rotationAngle: Angle = .degrees(0.0),
+        autoRotationSpeed: Binding<Double>,
+        autoRotationActive: Binding<Bool>
+    ) {
         _rotationAngle = State(initialValue: rotationAngle)
         _autoRotationSpeed = autoRotationSpeed
         _autoRotationActive = autoRotationActive
@@ -96,7 +104,8 @@ public extension View {
     func autoRotation(
         rotationAngle: Angle? = nil,
         autoRotationSpeed: Binding<Double>? = nil,
-        autoRotationActive: Binding<Bool>? = nil) -> some View {
+        autoRotationActive: Binding<Bool>? = nil) -> some View
+    {
         let effect = AutoRotation(
             rotationAngle: rotationAngle ?? .degrees(0.0),
             autoRotationSpeed: autoRotationSpeed ?? .constant(20.0),

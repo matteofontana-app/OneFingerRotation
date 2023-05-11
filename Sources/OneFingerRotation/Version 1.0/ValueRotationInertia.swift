@@ -25,7 +25,15 @@ public struct ValueRotationInertia: ViewModifier {
     @State private var previousAngle: Double = 0
     @State private var rotationDirection: Double = 1
     /// Initialization of three declarable and optional values.
-    public init(totalAngle: Binding<Double>, friction: Binding<CGFloat> = .constant(0.005), velocityMultiplier: Binding<CGFloat> = .constant(0.1), rotationAngle: Angle = .degrees(0.0), animation: Animation? = nil, onAngleChanged: @escaping (Double) -> Void, stoppingAnimation: Binding<Bool> = .constant(false)) {
+    public init(
+        totalAngle: Binding<Double>,
+        friction: Binding<CGFloat> = .constant(0.005),
+        velocityMultiplier: Binding<CGFloat> = .constant(0.1),
+        rotationAngle: Angle = .degrees(0.0),
+        animation: Animation? = nil,
+        onAngleChanged: @escaping (Double) -> Void,
+        stoppingAnimation: Binding<Bool> = .constant(false)
+    ) {
         self._totalAngle = totalAngle
         self._friction = friction
         self._velocityMultiplier = velocityMultiplier
