@@ -4,7 +4,7 @@
 ![GitHub](https://img.shields.io/github/license/matteofontana-app/OneFingerRotation?label=License&style=flat-square)
 ![GitHub issues](https://img.shields.io/github/issues/matteofontana-app/OneFingerRotation?style=flat-square)
 ![GitHub Repo stars](https://img.shields.io/github/stars/matteofontana-app/OneFingerRotation?style=flat-square)
-![GitHub release (latest by date)](https://img.shields.io/github/v/release/matteofontana-app/OneFingerRotation?label=Last%20Release)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/matteofontana-app/OneFingerRotation?style=flat-square&label=Last%20Release)
 
 
 
