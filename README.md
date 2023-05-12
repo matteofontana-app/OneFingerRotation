@@ -35,8 +35,6 @@ Current Version: **1.2.0**
 - [License](#license)
 </details>
 
-## Presentation
----
 ## Usage
 
 The Framework is composed of a series of modifiers that you can apply to any view in your SwiftUI project.
