@@ -1,4 +1,4 @@
-![MainTitle.gif](https://s12.gifyu.com/images/MainTitle.gif)
+[![MainTitle.gif](https://s12.gifyu.com/images/MainTitle.gif)](https://gifyu.com/image/SnnVU)]
 
 OneFingerRotation is a lightweight SwiftUI framework that enables you to add a one-finger rotation gesture to any view with a single modifier. This library is perfect for developers who want to quickly and easily implement rotation functionality in their SwiftUI applications without the hassle of dealing with complex gesture recognizers.
 
