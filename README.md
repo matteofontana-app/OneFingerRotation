@@ -577,15 +577,9 @@ In case there is need to change the value from outside this is the procedure ot 
 
 These are some examples on use of the framework:
 
-Girandola
-
-Wheel
-
-Fidget Spinner
-
-Knob
-
-DJ Turntable
+PinWheel - Wheel - Fidget Spinner - Knob - DJ Turntable
+  
+Practical Examples are Coming Soon...
 
 ---
 
