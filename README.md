@@ -136,6 +136,8 @@ These are the customization possibilities:
 
 </summary>
 The Value Rotation allows for a simple rotation using one finger with a linked value related to the total angle of rotation.
+  
+<img align="right" width="175" src="https://github.com/matteofontana-app/Assets/blob/main/OneFingerRotation/Modifiers/ValueRotation.gif"/>
 
 **Setup**
 
@@ -184,6 +186,8 @@ To declare the modifier it is mandatory to link the variable and also the onAngl
 </summary>
 
 The Value Rotation with Inertia allows for a rotation with value linked and inertia effect at the end of the gesture.
+  
+<img align="right" width="175" src="https://github.com/matteofontana-app/Assets/blob/main/OneFingerRotation/Modifiers/ValueRotationInertia.gif"/>
 
 **Setup**
 
@@ -239,6 +243,8 @@ These are the customization possibilities:
 </summary>
 
 The Auto Rotation applies an automatic rotation to a simple rotation.
+  
+<img align="right" width="175" src="https://github.com/matteofontana-app/Assets/blob/main/OneFingerRotation/Modifiers/AutoRotation.gif"/>
 
 **Declaration:**
 
@@ -298,6 +304,8 @@ Using this method will make able to modify the variables during the use of the m
 </summary>
 
 The Value Auto Rotation links a value related to the angle of an Auto Rotation
+  
+<img align="right" width="175" src="https://github.com/matteofontana-app/Assets/blob/main/OneFingerRotation/Modifiers/ValueAutoRotation.gif"/>
 
 **Setup**
 
@@ -388,6 +396,8 @@ content
 </summary>
 
 An Automatic rotation with finger rotation gesture and inertia effect. All in one.
+  
+<img align="right" width="175" src="https://github.com/matteofontana-app/Assets/blob/main/OneFingerRotation/Modifiers/ValueAutoRotationInertia.gif"/>
 
 **Setup**
 
@@ -447,6 +457,8 @@ These are the customization possibilities:
 </summary>
 
 The Knob applies a range value from 0 to 1 to a certain angle interval.
+  
+<img align="right" width="175" src="https://github.com/matteofontana-app/Assets/blob/main/OneFingerRotation/Modifiers/KnobRotation.gif"/>
 
 **Setup:**
 
@@ -511,6 +523,8 @@ In case there is need to change the value from outside this is the procedure ot 
 </summary>
 
 The Knob Inertia applies inertia effect to a simple knob.
+  
+<img align="right" width="175" src="https://github.com/matteofontana-app/Assets/blob/main/OneFingerRotation/Modifiers/KnobInertia.gif"/>
 
 **Setup:**
 
@@ -576,17 +590,6 @@ In case there is need to change the value from outside this is the procedure ot 
 ```
 
 </details>
-
----
-## Examples
-
-These are some examples on use of the framework:
-
-PinWheel - Wheel - Fidget Spinner - Knob - DJ Turntable
-  
-Practical Examples are Coming Soon...
-
----
 
 ## Versions
 
