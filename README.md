@@ -64,7 +64,7 @@ Here's the list of the modifiers in the framework:
 
 The Simple Rotation allows for a simple rotation using one finger.
   
-<img align="left" width="200" src="https://github.com/matteofontana-app/Assets/blob/main/OneFingerRotation/Modifiers/SimpleRotation.gif"/>
+<img align="right" width="150" src="https://github.com/matteofontana-app/Assets/blob/main/OneFingerRotation/Modifiers/SimpleRotation.gif"/>
 
 **Declaration:**
 
