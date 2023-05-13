@@ -12,23 +12,40 @@ public struct SimpleRotation: ViewModifier {
     @GestureState private var gestureRotation: Angle = .zero
     @Binding private var angleSnap: Double?
     
+    /// viewSize is needed for the calculation of the Width and Height of the View.
+    @State private var viewSize: CGSize = .zero
+    
     public init(rotationAngle: Angle = .degrees(0.0), angleSnap: Binding<Double?> = .constant(nil)) {
         _rotationAngle = State(initialValue: rotationAngle)
         _angleSnap = angleSnap
     }
     
     public func body(content: Content) -> some View {
-        content
-            .rotationEffect(rotationAngle + gestureRotation)
-            .gesture(
-                DragGesture()
-                    .updating($gestureRotation) { value, state, _ in
-                        state = calculateRotation(value: value)
+        GeometryReader { geometry in
+            content
+                .background(
+                    GeometryReader { geometry in
+                        Color.clear.preference(key: FrameSizeKeySimpleRotation.self, value: geometry.size)
                     }
-                    .onEnded { value in
-                        rotationAngle = rotationAngle + calculateRotation(value: value)
-                    }
-            )
+                )
+                .onPreferenceChange(FrameSizeKeySimpleRotation.self) { newSize in
+                    viewSize = newSize
+                }
+            /// The ".position" modifier fix the center of the content.
+                .position(x: geometry.size.width / 2, y: geometry.size.height / 2)
+                .rotationEffect(rotationAngle + gestureRotation)
+                .gesture(
+                    DragGesture()
+                        .updating($gestureRotation) { value, state, _ in
+                            state = calculateRotation(value: value)
+                        }
+                        .onEnded { value in
+                            rotationAngle = rotationAngle + calculateRotation(value: value)
+                        }
+                )
+        }
+        /// This ".frame" modifier ensures that the content is at the center of the view always.
+        .frame(width: viewSize.width, height: viewSize.height)
     }
     
     public func calculateRotation(value: DragGesture.Value) -> Angle {
@@ -49,6 +66,14 @@ public struct SimpleRotation: ViewModifier {
         }
         
         return rotation
+    }
+}
+
+struct FrameSizeKeySimpleRotation: PreferenceKey {
+    static var defaultValue: CGSize = .zero
+    
+    static func reduce(value: inout CGSize, nextValue: () -> CGSize) {
+        value = nextValue()
     }
 }
 
