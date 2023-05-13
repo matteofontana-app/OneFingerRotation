@@ -49,14 +49,12 @@ public struct SimpleRotation: ViewModifier {
     }
     
     public func calculateRotation(value: DragGesture.Value) -> Angle {
-        let centerX = value.startLocation.x - 100
-        let centerY = value.startLocation.y - 100
-        let startVector = CGVector(dx: centerX, dy: centerY)
-        let endX = value.startLocation.x + value.translation.width - 100
-        let endY = value.startLocation.y + value.translation.height - 100
-        let endVector = CGVector(dx: endX, dy: endY)
-        let angleDifference = atan2(startVector.dy * endVector.dx - startVector.dx * endVector.dy, startVector.dx * endVector.dx + startVector.dy * endVector.dy)
-        var rotation = Angle(radians: -Double(angleDifference))
+        let centerX = viewSize.width / 2
+        let centerY = viewSize.height / 2
+        let startVector = CGVector(dx: value.startLocation.x - centerX, dy: value.startLocation.y - centerY)
+        let endVector = CGVector(dx: value.location.x - centerX, dy: value.location.y - centerY)
+        let angleDifference = atan2(endVector.dy, endVector.dx) - atan2(startVector.dy, startVector.dx)
+        var rotation = Angle(radians: Double(angleDifference))
         
         // Apply angle snapping if specified
         if let snap = angleSnap {
@@ -67,6 +65,7 @@ public struct SimpleRotation: ViewModifier {
         
         return rotation
     }
+
 }
 
 struct FrameSizeKeySimpleRotation: PreferenceKey {
