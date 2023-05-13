@@ -33,37 +33,40 @@ public struct SimpleRotation: ViewModifier {
                 }
             /// The ".position" modifier fix the center of the content.
                 .position(x: geometry.size.width / 2, y: geometry.size.height / 2)
-                .rotationEffect(rotationAngle + gestureRotation)
+                .rotationEffect(rotationAngle + gestureRotation, anchor: .center)
                 .gesture(
-                                DragGesture()
-                                    .updating($gestureRotation) { value, state, _ in
-                                        state = calculateRotation(value: value)
-                                    }
-                                    .onEnded { value in
-                                        rotationAngle = rotationAngle + calculateRotation(value: value)
-                                    }
-                            )
+                    DragGesture()
+                        .updating($gestureRotation) { value, state, _ in
+                            state = calculateRotation(value: value)
+                        }
+                        .onEnded { value in
+                            rotationAngle = rotationAngle + calculateRotation(value: value)
+                        }
+                )
         }
         /// This ".frame" modifier ensures that the content is at the center of the view always.
         .frame(width: viewSize.width, height: viewSize.height)
     }
     
     public func calculateRotation(value: DragGesture.Value) -> Angle {
-            let startVector = CGVector(dx: value.startLocation.x - 180, dy: value.startLocation.y - 180)
-            let endVector = CGVector(dx: value.location.x - 180, dy: value.location.y - 180)
-
-            let angleDifference = atan2(endVector.dy, endVector.dx) - atan2(startVector.dy, startVector.dx)
-            var rotation = Angle(radians: Double(angleDifference))
-            
-            // Apply angle snapping if specified
-            if let snap = angleSnap {
-                let snapAngle = Angle(degrees: snap)
-                let snappedRotation = round(rotation.radians / snapAngle.radians) * snapAngle.radians
-                rotation = Angle(radians: snappedRotation)
-            }
-            
-            return rotation
+        let centerX = value.startLocation.x - 100
+        let centerY = value.startLocation.y - 100
+        let startVector = CGVector(dx: centerX, dy: centerY)
+        let endX = value.startLocation.x + value.translation.width - 100
+        let endY = value.startLocation.y + value.translation.height - 100
+        let endVector = CGVector(dx: endX, dy: endY)
+        let angleDifference = atan2(startVector.dy * endVector.dx - startVector.dx * endVector.dy, startVector.dx * endVector.dx + startVector.dy * endVector.dy)
+        var rotation = Angle(radians: -Double(angleDifference))
+        
+        // Apply angle snapping if specified
+        if let snap = angleSnap {
+            let snapAngle = Angle(degrees: snap)
+            let snappedRotation = round(rotation.radians / snapAngle.radians) * snapAngle.radians
+            rotation = Angle(radians: snappedRotation)
         }
+        
+        return rotation
+    }
 }
 
 struct FrameSizeKeySimpleRotation: PreferenceKey {
