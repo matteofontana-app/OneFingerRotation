@@ -92,10 +92,10 @@ The Simple Rotation allows for a simple rotation using one finger.
 </summary>
 
 The Simple Inertia Rotation allows the view for a simple rotation with consequent inertia effect.
-  
-![](https://github.com/matteofontana-app/Assets/blob/main/OneFingerRotation/Modifiers/SimpleRotation.gif){: style="float: right"}
 
 **Declaration:**
+  
+![](https://github.com/matteofontana-app/Assets/blob/main/OneFingerRotation/Modifiers/SimpleRotation.gif){: style="float: right"}
 
 Declaration should be like this:
 
