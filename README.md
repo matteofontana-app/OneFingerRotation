@@ -64,7 +64,7 @@ Here's the list of the modifiers in the framework:
 
 The Simple Rotation allows for a simple rotation using one finger.
   
-<img align="right" width="150" src="https://github.com/matteofontana-app/Assets/blob/main/OneFingerRotation/Modifiers/SimpleRotation.gif"/>
+<img align="right" width="175" src="https://github.com/matteofontana-app/Assets/blob/main/OneFingerRotation/Modifiers/SimpleRotation.gif"/>
 
 **Declaration:**
 
@@ -95,6 +95,8 @@ The Simple Rotation allows for a simple rotation using one finger.
 
 The Simple Inertia Rotation allows the view for a simple rotation with consequent inertia effect.
 
+<img align="right" width="175" src="https://github.com/matteofontana-app/Assets/blob/main/OneFingerRotation/Modifiers/SimpleRotationInertia.gif"/>
+  
 **Declaration:**
 
 Declaration should be like this:
