@@ -593,7 +593,7 @@ In case there is need to change the value from outside this is the procedure ot 
 </details>
 
 ## Versions
-
+* 1.2.1: Refinements to the content of the README file, adjustments to the Simple Rotation function, video examples in the README file.
 * 1.2.0: Implementation of functions of snapping for Simple Rotation, Simple Rotation with Inertia
 * 1.0.0: Implementation of the modifiers: Simple Rotation, Simple Rotation with Inertia, Value Rotation, Value Rotation with Inertia, Auto Rotation, Value Auto Rotation, Value Auto Rotation with Inertia, Knob, Knob with Inertia.
 
