@@ -19,6 +19,7 @@ public struct ValueAutoRotation: ViewModifier {
     @Binding var autoRotationSpeed: Double
     @Binding var autoRotationEnabled: Bool
     @State private var autoRotationTimer: Timer? = nil
+    @State private var dragJustEnded: Bool = false
     
     public init(
         totalAngle: Binding<Double>,
@@ -66,9 +67,8 @@ public struct ValueAutoRotation: ViewModifier {
                 .position(x: geometry.size.width / 2, y: geometry.size.height / 2)
                 .rotationEffect(rotationAngle, anchor: .center)
                 .onChange(of: totalAngle) { newValue in
-                    if !isDragged {
-                        let difference = abs(newValue - rotationAngle.degrees)
-                        if difference < 180, let animation = animation {
+                    if !isDragged && !dragJustEnded {
+                        if let animation = animation {
                             withAnimation(animation) {
                                 rotationAngle = Angle(degrees: newValue)
                                 fullRotations = 0
@@ -77,6 +77,10 @@ public struct ValueAutoRotation: ViewModifier {
                             rotationAngle = Angle(degrees: newValue)
                             fullRotations = 0
                         }
+                    } else if dragJustEnded {
+                        rotationAngle = Angle(degrees: newValue)
+                        fullRotations = 0
+                        dragJustEnded = false
                     }
                 }
                 .gesture(
@@ -108,6 +112,7 @@ public struct ValueAutoRotation: ViewModifier {
                             }
                             previousAngle = 0
                             isDragged = false
+                            dragJustEnded = true
                         }
                 )
                 .onAppear {
