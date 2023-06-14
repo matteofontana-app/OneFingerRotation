@@ -17,6 +17,7 @@ public struct AutoRotation: ViewModifier {
     @Binding var autoRotationSpeed: Double
     @Binding var autoRotationActive: Bool
     @State private var viewSize: CGSize = .zero
+    var snappingAngle: Angle? = nil // New property for the snapping featuret
     
     var timer: Timer {
         Timer.scheduledTimer(withTimeInterval: 1 / 60, repeats: true) { _ in
@@ -27,14 +28,16 @@ public struct AutoRotation: ViewModifier {
     }
     
     public init(
-        rotationAngle: Angle = .degrees(0.0),
-        autoRotationSpeed: Binding<Double>,
-        autoRotationActive: Binding<Bool>
-    ) {
-        _rotationAngle = State(initialValue: rotationAngle)
-        _autoRotationSpeed = autoRotationSpeed
-        _autoRotationActive = autoRotationActive
-    }
+          rotationAngle: Angle = .degrees(0.0),
+          autoRotationSpeed: Binding<Double>,
+          autoRotationActive: Binding<Bool>,
+          snappingAngle: Angle? = nil // Added new parameter
+      ) {
+          _rotationAngle = State(initialValue: rotationAngle)
+          _autoRotationSpeed = autoRotationSpeed
+          _autoRotationActive = autoRotationActive
+          self.snappingAngle = snappingAngle // Initialize the new property
+      }
     
     public func body(content: Content) -> some View {
         GeometryReader { geometry in
@@ -66,7 +69,7 @@ public struct AutoRotation: ViewModifier {
                             let angleDifference = atan2(startVector.dy * endVector.dx - startVector.dx * endVector.dy, startVector.dx * endVector.dx + startVector.dy * endVector.dy)
                             state = Angle(radians: -Double(angleDifference))
                         }
-                        //Drag gesture of rotation when ended
+                    //Drag gesture of rotation when ended
                         .onEnded { value in
                             let centerX = value.startLocation.x - 100
                             let centerY = value.startLocation.y - 100
@@ -79,6 +82,15 @@ public struct AutoRotation: ViewModifier {
                             
                             let angleDifference = atan2(startVector.dy * endVector.dx - startVector.dx * endVector.dy, startVector.dx * endVector.dx + startVector.dy * endVector.dy)
                             rotationAngle = rotationAngle + Angle(radians: -Double(angleDifference))
+                            
+                            // Snap to the nearest snapping angle if snapping is enabled
+                            if let snappingAngle = snappingAngle {
+                                let currentAngleDegrees = rotationAngle.degrees
+                                let snappingAngleDegrees = snappingAngle.degrees
+                                
+                                let quotient = (currentAngleDegrees / snappingAngleDegrees).rounded()
+                                rotationAngle = Angle(degrees: quotient * snappingAngleDegrees)
+                            }
                         }
                 )
                 .onAppear {
@@ -104,12 +116,14 @@ public extension View {
     func autoRotation(
         rotationAngle: Angle? = nil,
         autoRotationSpeed: Binding<Double>? = nil,
-        autoRotationActive: Binding<Bool>? = nil) -> some View
+        autoRotationActive: Binding<Bool>? = nil,
+        snappingAngle: Angle? = nil) -> some View // New parameter
     {
         let effect = AutoRotation(
             rotationAngle: rotationAngle ?? .degrees(0.0),
             autoRotationSpeed: autoRotationSpeed ?? .constant(20.0),
-            autoRotationActive: autoRotationActive ?? .constant(true)
+            autoRotationActive: autoRotationActive ?? .constant(true),
+            snappingAngle: snappingAngle // Pass the new argument
         )
         return self.modifier(effect)
     }
