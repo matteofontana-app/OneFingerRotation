@@ -102,11 +102,11 @@ public struct ValueAutoRotation: ViewModifier {
                             totalAngle = totalRotationAngle
                         }
                         .onEnded { _ in
-                            isDragged = false
                             if autoRotationEnabled {
                                 startAutoRotation()
                             }
                             previousAngle = 0
+                            isDragged = false
                         }
                 )
                 .onAppear {
