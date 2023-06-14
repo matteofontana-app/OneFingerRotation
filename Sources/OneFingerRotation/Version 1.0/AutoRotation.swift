@@ -9,41 +9,39 @@ import SwiftUI
 
 ///Struct for Auto Rotation
 public struct AutoRotation: ViewModifier {
-    ///Variable for general rotationAngle, which calculates the initial angle of the content.
     @State private var rotationAngle: Angle = .zero
-    ///Variable for the calculation of the gesture Angle
-    @GestureState private var gestureRotation: Angle = .zero
-    
-    @Binding var autoRotationSpeed: Double
-    @Binding var autoRotationActive: Bool
-    @Binding var snapAngle: Double?
+        @GestureState private var gestureRotation: Angle = .zero
+        @Binding var autoRotationSpeed: Double
+        @Binding var autoRotationActive: Bool
+        @Binding var snapAngle: Double
         @State private var viewSize: CGSize = .zero
-        var timer: Timer {
-            Timer.scheduledTimer(withTimeInterval: 1 / 60, repeats: true) { _ in
-                if autoRotationActive && gestureRotation == .zero {
-                    let newAngle = (rotationAngle + Angle(degrees: autoRotationSpeed / 60)).degrees
-                    rotationAngle = Angle(degrees: snapAngle != nil ? nearestMultiple(of: snapAngle!, for: newAngle) : newAngle)
-                }
-            }
-        }
-        public init(
-            rotationAngle: Angle = .degrees(0.0),
-            autoRotationSpeed: Binding<Double>,
-            autoRotationActive: Binding<Bool>,
-            snapAngle: Binding<Double?> = .constant(nil)
-        ) {
-            _rotationAngle = State(initialValue: rotationAngle)
-            _autoRotationSpeed = autoRotationSpeed
-            _autoRotationActive = autoRotationActive
-            _snapAngle = snapAngle
-        }
-    func nearestMultiple(of multiple: Double, for value: Double) -> Double {
-            let valueMod = value.truncatingRemainder(dividingBy: 360.0)
-            let multipleMod = multiple.truncatingRemainder(dividingBy: 360.0)
-            let diff = valueMod.truncatingRemainder(dividingBy: multipleMod)
-            return diff > multipleMod / 2.0 ? valueMod + multipleMod - diff : valueMod - diff
-        }
+        
+    var timer: Timer {
+           Timer.scheduledTimer(withTimeInterval: 1 / 60, repeats: true) { _ in
+               if autoRotationActive && gestureRotation == .zero {
+                   var newRotationAngle = rotationAngle + Angle(degrees: autoRotationSpeed / 60)
+                   
+                   // Handle snapping for automatic rotation
+                   if snapAngle > 0 {
+                       let snapAsAngle = Angle(degrees: snapAngle)
+                       newRotationAngle = Angle(degrees: round(newRotationAngle.degrees / snapAsAngle.degrees) * snapAsAngle.degrees)
+                   }
+                   rotationAngle = newRotationAngle
+               }
+           }
+       }
 
+    public init(
+          rotationAngle: Angle = .degrees(0.0),
+          autoRotationSpeed: Binding<Double>,
+          autoRotationActive: Binding<Bool>,
+          snapAngle: Binding<Double>
+      ) {
+          _rotationAngle = State(initialValue: rotationAngle)
+          _autoRotationSpeed = autoRotationSpeed
+          _autoRotationActive = autoRotationActive
+          _snapAngle = snapAngle
+      }
     
     public func body(content: Content) -> some View {
         GeometryReader { geometry in
@@ -74,6 +72,10 @@ public struct AutoRotation: ViewModifier {
                             
                             let angleDifference = atan2(startVector.dy * endVector.dx - startVector.dx * endVector.dy, startVector.dx * endVector.dx + startVector.dy * endVector.dy)
                             state = Angle(radians: -Double(angleDifference))
+                            if snapAngle > 0 {
+                                                let snapAsAngle = Angle(degrees: snapAngle)
+                                                state = Angle(degrees: round(state.degrees / snapAsAngle.degrees) * snapAsAngle.degrees)
+                                            }
                         }
                     //Drag gesture of rotation when ended
                         .onEnded { value in
@@ -87,8 +89,11 @@ public struct AutoRotation: ViewModifier {
                             let endVector = CGVector(dx: endX, dy: endY)
                             
                             let angleDifference = atan2(startVector.dy * endVector.dx - startVector.dx * endVector.dy, startVector.dx * endVector.dx + startVector.dy * endVector.dy)
-                            let newAngle = (rotationAngle + Angle(radians: -Double(angleDifference))).degrees
-                                                rotationAngle = Angle(degrees: snapAngle != nil ? nearestMultiple(of: snapAngle!, for: newAngle) : newAngle)
+                            rotationAngle = rotationAngle + Angle(radians: -Double(angleDifference))
+                            if snapAngle > 0 {
+                                                let snapAsAngle = Angle(degrees: snapAngle)
+                                                rotationAngle = Angle(degrees: round(rotationAngle.degrees / snapAsAngle.degrees) * snapAsAngle.degrees)
+                                            }
                         }
                 )
                 .onAppear {
@@ -109,19 +114,19 @@ struct FrameSizeKeyAutoRotation: PreferenceKey {
         value = nextValue()
     }
 }
-
 public extension View {
     func autoRotation(
         rotationAngle: Angle? = nil,
         autoRotationSpeed: Binding<Double>? = nil,
         autoRotationActive: Binding<Bool>? = nil,
-        snapAngle: Binding<Double>? = nil) -> some View
+        snapAngle: Binding<Double>? = nil
+    ) -> some View
     {
         let effect = AutoRotation(
             rotationAngle: rotationAngle ?? .degrees(0.0),
             autoRotationSpeed: autoRotationSpeed ?? .constant(20.0),
             autoRotationActive: autoRotationActive ?? .constant(true),
-            snapAngle: snapAngle
+            snapAngle: snapAngle ?? .constant(0.0)
         )
         return self.modifier(effect)
     }
