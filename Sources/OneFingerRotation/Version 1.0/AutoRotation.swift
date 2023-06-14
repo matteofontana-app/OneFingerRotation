@@ -115,13 +115,13 @@ public extension View {
         rotationAngle: Angle? = nil,
         autoRotationSpeed: Binding<Double>? = nil,
         autoRotationActive: Binding<Bool>? = nil,
-        angleSnap: Binding<Double?>? = nil) -> some View
+        snapAngle: Binding<Double>? = nil) -> some View
     {
         let effect = AutoRotation(
             rotationAngle: rotationAngle ?? .degrees(0.0),
             autoRotationSpeed: autoRotationSpeed ?? .constant(20.0),
             autoRotationActive: autoRotationActive ?? .constant(true),
-            angleSnap: angleSnap ?? .constant(nil)
+            snapAngle: snapAngle
         )
         return self.modifier(effect)
     }
