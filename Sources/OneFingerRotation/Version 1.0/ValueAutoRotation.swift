@@ -70,11 +70,11 @@ public struct ValueAutoRotation: ViewModifier {
                         if let animation = animation {
                             withAnimation(animation) {
                                 rotationAngle = Angle(degrees: newValue)
-                                fullRotations = 0
+                                //fullRotations = 0
                             }
                         } else {
                             rotationAngle = Angle(degrees: newValue)
-                            fullRotations = 0
+                            //fullRotations = 0
                         }
                     }
                 }
@@ -105,7 +105,7 @@ public struct ValueAutoRotation: ViewModifier {
                             if autoRotationEnabled {
                                 startAutoRotation()
                             }
-                            previousAngle = 0
+                            //previousAngle = 0
                             isDragged = false
                         }
                 )
