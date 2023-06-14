@@ -66,7 +66,7 @@ public struct ValueAutoRotation: ViewModifier {
                 .position(x: geometry.size.width / 2, y: geometry.size.height / 2)
                 .rotationEffect(rotationAngle, anchor: .center)
                 .onChange(of: totalAngle) { newValue in
-                    if !isDragged {
+                    if isDragged {
                         if let animation = animation {
                             withAnimation(animation) {
                                 rotationAngle = Angle(degrees: newValue)
