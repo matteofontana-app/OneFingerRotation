@@ -16,36 +16,34 @@ public struct AutoRotation: ViewModifier {
     
     @Binding var autoRotationSpeed: Double
     @Binding var autoRotationActive: Bool
-    @State private var viewSize: CGSize = .zero
-    @Binding var angleSnap: Double?
-    
-    var timer: Timer {
+    @Binding var snapAngle: Double?
+        @State private var viewSize: CGSize = .zero
+        var timer: Timer {
             Timer.scheduledTimer(withTimeInterval: 1 / 60, repeats: true) { _ in
                 if autoRotationActive && gestureRotation == .zero {
-                    rotationAngle = rotationAngle + Angle(degrees: autoRotationSpeed / 60)
-                    if let snap = angleSnap {
-                        rotationAngle = Angle(degrees: nearestMultiple(of: snap, for: rotationAngle.degrees))
-                    }
+                    let newAngle = (rotationAngle + Angle(degrees: autoRotationSpeed / 60)).degrees
+                    rotationAngle = Angle(degrees: snapAngle != nil ? nearestMultiple(of: snapAngle!, for: newAngle) : newAngle)
                 }
             }
         }
-    
-    func nearestMultiple(of multiple: Double, for value: Double) -> Double {
-            let quotient = (value / multiple).rounded()
-            return quotient * multiple
+        public init(
+            rotationAngle: Angle = .degrees(0.0),
+            autoRotationSpeed: Binding<Double>,
+            autoRotationActive: Binding<Bool>,
+            snapAngle: Binding<Double?> = .constant(nil)
+        ) {
+            _rotationAngle = State(initialValue: rotationAngle)
+            _autoRotationSpeed = autoRotationSpeed
+            _autoRotationActive = autoRotationActive
+            _snapAngle = snapAngle
         }
-    
-    public init(
-          rotationAngle: Angle = .degrees(0.0),
-          autoRotationSpeed: Binding<Double>,
-          autoRotationActive: Binding<Bool>,
-          angleSnap: Binding<Double?> = .constant(nil)
-      ) {
-          _rotationAngle = State(initialValue: rotationAngle)
-          _autoRotationSpeed = autoRotationSpeed
-          _autoRotationActive = autoRotationActive
-          _angleSnap = angleSnap
-      }
+    func nearestMultiple(of multiple: Double, for value: Double) -> Double {
+            let valueMod = value.truncatingRemainder(dividingBy: 360.0)
+            let multipleMod = multiple.truncatingRemainder(dividingBy: 360.0)
+            let diff = valueMod.truncatingRemainder(dividingBy: multipleMod)
+            return diff > multipleMod / 2.0 ? valueMod + multipleMod - diff : valueMod - diff
+        }
+
     
     public func body(content: Content) -> some View {
         GeometryReader { geometry in
@@ -89,10 +87,8 @@ public struct AutoRotation: ViewModifier {
                             let endVector = CGVector(dx: endX, dy: endY)
                             
                             let angleDifference = atan2(startVector.dy * endVector.dx - startVector.dx * endVector.dy, startVector.dx * endVector.dx + startVector.dy * endVector.dy)
-                            rotationAngle = rotationAngle + Angle(radians: -Double(angleDifference))
-                                                if let snap = angleSnap {
-                                                    rotationAngle = Angle(degrees: nearestMultiple(of: snap, for: rotationAngle.degrees))
-                                                }
+                            let newAngle = (rotationAngle + Angle(radians: -Double(angleDifference))).degrees
+                                                rotationAngle = Angle(degrees: snapAngle != nil ? nearestMultiple(of: snapAngle!, for: newAngle) : newAngle)
                         }
                 )
                 .onAppear {
